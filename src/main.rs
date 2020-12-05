@@ -7,7 +7,7 @@ use actix_files::Files;
 use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
 use log::{info, warn};
 
-use handlebars::Handlebars;
+use handlebars::{Handlebars, RenderError};
 use sass_rs::{compile_file, Options};
 
 use serde::Serialize;
@@ -86,10 +86,37 @@ struct AppState<'a> {
     hb: web::Data<Handlebars<'a>>,
     assets: &'a AssetFiles,
 }
+
 #[get("/")] // TODO: actually learn about lifetime specifiers
 async fn index(data: web::Data<AppState<'_>>) -> impl Responder {
+    render_template(String::from("index"), data)
+}
+
+#[get("/{page}")]
+async fn get_page(
+    web::Path(page): web::Path<String>,
+    data: web::Data<AppState<'_>>,
+) -> impl Responder {
+    println!("page {}", page);
+    render_template(page, data)
+}
+
+fn render_fail_wrapper(
+    res: Result<String, RenderError>,
+) -> actix_web::web::HttpResponse<actix_web::dev::Body> {
+    match res {
+        Ok(content) => HttpResponse::Ok().body(content),
+        Err(_) => HttpResponse::Ok().body("<h1>404</h1>"),
+    }
+}
+
+fn render_template(
+    page: String,
+    data: web::Data<AppState<'_>>,
+) -> actix_web::web::HttpResponse<actix_web::dev::Body> {
+    println!("Template request for '{}'", page);
     let d = json!({
-        "page": "index",
+        "page": page,
         "app_css": compileOrFetch! (data, "app", css.app, compile_sass),
     });
     if CONFIG.dev {
@@ -97,10 +124,9 @@ async fn index(data: web::Data<AppState<'_>>) -> impl Responder {
         handlebars
             .register_templates_directory(".handlebars", "./src/templates")
             .unwrap();
-        HttpResponse::Ok().body(handlebars.render("index", &d).unwrap())
+        render_fail_wrapper(handlebars.render(page.as_str(), &d))
     } else {
-        let body = &data.hb.render("index", &d).unwrap();
-        HttpResponse::Ok().body(body)
+        render_fail_wrapper((&data.hb).render(page.as_str(), &d))
     }
 }
 
@@ -125,6 +151,7 @@ async fn main() -> std::io::Result<()> {
             })
             .service(Files::new("/static", "./static"))
             .service(index)
+            .service(get_page)
     })
     .bind("0.0.0.0:8080")?
     .run()
