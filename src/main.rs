@@ -72,6 +72,16 @@ lazy_static! {
     // };
 }
 
+macro_rules! compileOrFetch {
+    ($data:expr, $name:literal, $assetA:tt.$assetB:tt, $compileFunc:tt) => {
+        if CONFIG.dev {
+            $compileFunc($name)
+        } else {
+            String::from(&$data.assets.$assetA.$assetB)
+        }
+    };
+}
+
 struct AppState<'a> {
     hb: web::Data<Handlebars<'a>>,
     assets: &'a AssetFiles,
@@ -80,11 +90,18 @@ struct AppState<'a> {
 async fn index(data: web::Data<AppState<'_>>) -> impl Responder {
     let d = json!({
         "name": "Handlebars",
-        "app_css": &data.assets.css.app
+        "app_css": compileOrFetch! (data, "app", css.app, compile_sass),
     });
-    let body = &data.hb.render("index", &d).unwrap();
-
-    HttpResponse::Ok().body(body)
+    if CONFIG.dev {
+        let mut handlebars = Handlebars::new();
+        handlebars
+            .register_template_file("index", "./src/templates/index.handlebars")
+            .unwrap();
+        HttpResponse::Ok().body(handlebars.render("index", &d).unwrap())
+    } else {
+        let body = &data.hb.render("index", &d).unwrap();
+        HttpResponse::Ok().body(body)
+    }
 }
 
 #[actix_web::main]
@@ -121,6 +138,7 @@ fn hash_css(css: &str) -> String {
 }
 
 fn compile_sass(filename: &str) -> String {
+    println!("Compiling '{}.css'...", filename);
     let scss_file = format!("./src/styles/{}.scss", filename);
 
     let css = compile_file(&scss_file, Options::default())
