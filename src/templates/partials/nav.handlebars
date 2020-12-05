@@ -1,0 +1,17 @@
+<nav> {{! TOOD: make this iterate through a pages array instead}}
+  {{#if (eq page "index")}}
+  <a class="active" href="/">About</a>
+  {{else}}
+  <a>About</a>
+  {{/if}}
+  {{#if (eq page "projects")}}
+  <a class="active" href="/projects">Projects</a>
+  {{else}}
+  <a href="/projects">Projects</a>
+  {{/if}}
+  {{#if (eq page "contact")}}
+  <a class="active" href="/contact">Contact</a>
+  {{else}}
+  <a href="/contact">Contact</a>
+  {{/if}}
+</nav>
