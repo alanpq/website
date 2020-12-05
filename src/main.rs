@@ -89,13 +89,13 @@ struct AppState<'a> {
 #[get("/")] // TODO: actually learn about lifetime specifiers
 async fn index(data: web::Data<AppState<'_>>) -> impl Responder {
     let d = json!({
-        "name": "Handlebars",
+        "page": "index",
         "app_css": compileOrFetch! (data, "app", css.app, compile_sass),
     });
     if CONFIG.dev {
         let mut handlebars = Handlebars::new();
         handlebars
-            .register_template_file("index", "./src/templates/index.handlebars")
+            .register_templates_directory(".handlebars", "./src/templates")
             .unwrap();
         HttpResponse::Ok().body(handlebars.render("index", &d).unwrap())
     } else {
