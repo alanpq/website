@@ -66,10 +66,6 @@ lazy_static! {
             dev: dev
         }
     };
-
-    // static ref RCA: Addr<proc_control::RCONActor> = {
-    //     proc_control::RCONActor{rcon: None}.start()
-    // };
 }
 
 macro_rules! compileOrFetch {
