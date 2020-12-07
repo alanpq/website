@@ -57,6 +57,7 @@ nav {
     text-decoration: none;
 
     transition: background-color 0.1s ease-in-out;
+    border: none;
 
     &.active {
       border-bottom: 1px solid white;
@@ -93,6 +94,7 @@ ul.social {
 
   justify-content: center;
   list-style: none;
+  color: var(--fg2);
 
 
   li {
@@ -100,20 +102,30 @@ ul.social {
 
     a {
       padding: 1px 2px;
-      color: var(--fg2);
-      border-bottom: 1px solid var(--fg2);
-
-      cursor: pointer;
-
-      &:hover {
-        color: var(--bg2);
-        background: var(--fg2);
-        border-bottom: 1px solid var(--fg2);
-      }
+      // color: var(--fg2);
+      // border-bottom: 1px solid var(--fg2);
+      // &:hover {
+        // color: var(--bg2);
+        // background: var(--fg2);
+        // border-bottom: 1px solid var(--fg2);
+      // }
     }
   }
 }
 
+a {
+  padding: 1px 2px;
+  color: var(--fg2);
+  border-bottom: 1px solid currentColor;
+
+  cursor: pointer;
+
+  &:hover {
+    color: var(--bg2);
+    background: var(--fg2);
+    // border-bottom: 1px solid var(--fg2);
+  }
+}
 
 
 @media (min-width: 750px) {
@@ -161,9 +173,32 @@ ul.social {
 }
 
 a {
-  color: var(--fg1);
   text-decoration: none;
-  &:visited {
-    color: var(--fg1);
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  font-size: 0.75em;
+
+  padding: 0 0 5px 0;
+
+  a {
+    text-align: center;
+    color: var(--fg4);
+    border: none;
+
+    &:hover {
+      color: var(--bg2);
+      background: var(--fg4);
+      // border-bottom: 1px solid var(--fg2);
+    }
   }
 }
