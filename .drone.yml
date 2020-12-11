@@ -11,4 +11,5 @@ steps:
   commands:
   - docker-compose build
 - name: run
+  commands:
   - docker-compose up -d
