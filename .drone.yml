@@ -7,6 +7,8 @@ platform:
   arch: amd64
 
 steps:
-- name: compose
+- name: build
   commands:
   - docker-compose build
+- name: run
+  - docker-compose up -d
