@@ -163,7 +163,7 @@ fn hash_css(css: &str) -> String {
 
 fn compile_sass(filename: &str) -> String {
     println!("Compiling '{}.css'...", filename);
-    let scss_file = format!("./src/styles/{}.scss", filename);
+    let scss_file = format!("src/styles/{}.scss", filename);
 
     assert_eq!(path::Path::new(&scss_file).exists(), true);
 
