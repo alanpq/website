@@ -9,4 +9,4 @@ platform:
 steps:
 - name: compose
   commands:
-  - docker-compose up
+  - docker-compose build
