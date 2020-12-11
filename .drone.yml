@@ -1,15 +1,23 @@
 kind: pipeline
-type: exec
+type: docker
 name: default
-
-platform:
-  os: linux
-  arch: amd64
 
 steps:
 - name: build
+  image: compose:1.23.2
+  volumes:
+  - name: docker_sock
+    path: /var/run/docker.sock
   commands:
   - docker-compose build
 - name: run
+  image: compose:1.23.2
+  volumes:
+  - name: docker_sock
+    path: /var/run/docker.sock
   commands:
   - docker-compose up -d
+volumes:
+  - name: docker_sock
+    host:
+      path: /var/run/docker.sock
