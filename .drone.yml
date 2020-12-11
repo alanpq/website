@@ -4,7 +4,7 @@ name: default
 
 platform:
   os: linux
-  arch: amd_64
+  arch: amd64
 
 steps:
 - name: compose
