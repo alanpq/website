@@ -13,14 +13,15 @@
     <h1>Projects</h1>
   </header>
   {{>partials/nav}}
-  <main class="projects">
-    {{#each projects}}
-      <a href="/projects/{{id}}">
-        {{!-- {{../prefix}} {{firstname}} --}}
-        <img src="{{thumbnail}}" />
-        <h2>{{title}}</h2>
-      </a>
-    {{/each}}
+  <main class="project">
+    {{#with project}}
+    <a href="{{url}}"><img src="{{thumbnail}}" /></a>
+    <h1>{{title}}</h1>
+    <section class="description">
+      {{{description}}}
+    </section>
+    <section class="links"></section>
+    {{/with}}
   </main>
   {{>partials/footer}}
 </body>

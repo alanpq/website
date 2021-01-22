@@ -18,6 +18,19 @@ extern crate serde_json;
 #[macro_use]
 extern crate lazy_static;
 
+extern crate yaml_rust;
+use yaml_rust::{YamlEmitter, YamlLoader};
+
+extern crate notify;
+use notify::{watcher, DebouncedEvent, RecommendedWatcher, RecursiveMode, Watcher};
+use std::sync::mpsc::{channel, Receiver};
+use std::sync::{Arc, Mutex};
+use std::time::Duration;
+
+use std::fs::File;
+use std::io::prelude::*;
+use std::collections::HashMap;
+use std::iter::FromIterator;
 // thanks rust-lang git repo for the sass compile stuff
 
 #[derive(Clone, Serialize)]
@@ -78,14 +91,132 @@ macro_rules! compileOrFetch {
     };
 }
 
+#[derive(Serialize)]
+struct Project {
+    id: String,
+    thumbnail: String,
+    title: String,
+    description: String,
+    url: String,
+    stars: i64,
+    forks: i64,
+}
+
+struct Projects {
+    rx: Receiver<notify::DebouncedEvent>,
+    watcher: RecommendedWatcher,
+    value: Arc<Mutex<HashMap<String, Project>>>,
+}
+
+macro_rules! getValue {
+    ($doc:ident, $key:literal, $as:tt, $default:literal) => {
+        $doc[$key].$as().unwrap_or($default)
+    }
+}
+
+impl Projects {
+    fn new() -> Projects {
+        let (tx, rx) = channel();
+        let watcher = watcher(tx, Duration::from_secs(2)).unwrap();
+        return Projects {
+            rx: rx,
+            watcher: watcher,
+            value: Arc::new(Mutex::new(HashMap::new())),
+        };
+    }
+
+    fn process(&self, path: std::path::PathBuf) {
+        let file = File::open(path.clone());
+        if file.is_err() {
+            println!("File '{}' not found!", path.to_str().unwrap());
+            return;
+        }
+        let mut file = file.unwrap();
+        let mut s = String::new();
+        file.read_to_string(&mut s).unwrap();
+        let docs = YamlLoader::load_from_str(&s);
+        if docs.is_err() {
+            return;
+        }
+
+        let doc = &docs.unwrap()[0];
+        match doc["id"].as_str() {
+            Some(id) => {
+                self.value.lock().unwrap().insert(id.to_string(),
+                    Project {
+                        id: id.to_string(),
+                        thumbnail: String::from(getValue!(doc, "thumbnail", as_str, "default")),
+                        title: String::from(getValue!(doc, "title", as_str, "default")),
+                        description: String::from(getValue!(doc, "description", as_str, "default")),
+                        url: String::from(getValue!(doc, "url", as_str, "default")),
+                        stars: getValue!(doc, "stars", as_i64, 0),
+                        forks: getValue!(doc, "forks", as_i64, 0),
+                    },
+                );
+            }
+            None => {
+                println!(
+                    "'{}' - Project ID not found!",
+                    path.into_os_string()
+                        .into_string()
+                        .unwrap_or(String::from("???"))
+                );
+            }
+        }
+        
+        println!("{:?}", doc);
+    }
+
+    fn value(&self) -> Arc<Mutex<HashMap<String, Project>>> {
+        println!("fetching project values");
+
+        self.rx.try_iter().for_each(|e: DebouncedEvent| match e {
+            DebouncedEvent::NoticeWrite(p)  => self.process(p),
+            DebouncedEvent::NoticeRemove(p) => self.process(p),
+            DebouncedEvent::Create(p)       => self.process(p),
+            DebouncedEvent::Write(p)        => self.process(p),
+            DebouncedEvent::Chmod(p)        => self.process(p),
+            DebouncedEvent::Remove(p)       => {
+                self.value.lock().unwrap().remove(&String::from(p.file_name().unwrap().to_str().unwrap()));
+            },
+            DebouncedEvent::Rename(_, p)    => self.process(p),
+            _ => {}
+        });
+        return self.value.clone();
+    }
+}
+
 struct AppState<'a> {
     hb: web::Data<Handlebars<'a>>,
+    projects: Arc<Mutex<Projects>>,
     assets: &'a AssetFiles,
 }
 
 #[get("/")] // TODO: actually learn about lifetime specifiers
 async fn index(data: web::Data<AppState<'_>>) -> impl Responder {
-    render_template(String::from("index"), data)
+    render_template(String::from("index"), data, None)
+}
+
+#[get("/projects")]
+async fn get_projects(data: web::Data<AppState<'_>>) -> impl Responder {
+    let proj = &data.projects.lock().unwrap().value();
+    let map = proj.lock().unwrap();
+    render_template(String::from("projects"), data, Some(json!({
+        "projects": Vec::from_iter(map.values())
+    })))
+}
+
+#[get("/projects/{id}")]
+async fn get_project(
+    web::Path(id): web::Path<String>,
+    data: web::Data<AppState<'_>>,
+) -> impl Responder {
+    let proj = &data.projects.lock().unwrap().value();
+    let map = proj.lock().unwrap();
+    println!("project {}", id);
+    render_template(String::from("project"), data, Some(json!({
+        "project": map.get(&id)
+    })))
 }
 
 #[get("/{page}")]
@@ -94,7 +225,7 @@ async fn get_page(
     data: web::Data<AppState<'_>>,
 ) -> impl Responder {
     println!("page {}", page);
-    render_template(page, data)
+    render_template(page, data, None)
 }
 
 fn render_fail_wrapper(
@@ -106,15 +237,42 @@ fn render_fail_wrapper(
     }
 }
 
+/*
+
+render(data) {
+    const final_data = {
+        app_css:
+        ...data
+    }
+    // do render things with final_data
+}
+
+*/
+
 fn render_template(
     page: String,
     data: web::Data<AppState<'_>>,
+    json: Option<serde_json::Value>
 ) -> actix_web::web::HttpResponse<actix_web::dev::Body> {
     println!("Template request for '{}'", page);
-    let d = json!({
+    let mut dm = json!({
         "page": page,
         "app_css": compileOrFetch! (data, "app", css.app, compile_sass),
     });
+
+    let d = dm.as_object_mut().unwrap();
+
+    match json {
+        Some(j) => {
+            j.as_object().unwrap().iter().for_each(|(k,v)| {
+                d.insert(k.to_string(),v.clone());
+            });
+        },
+        None => {}
+    }
+
+    let d = json!(d);
+    
     if CONFIG.dev {
         let mut handlebars = Handlebars::new();
         handlebars
@@ -137,6 +295,18 @@ async fn main() -> std::io::Result<()> {
         .register_templates_directory(".handlebars", "./src/templates")
         .unwrap();
     let handlebars_ref = web::Data::new(handlebars);
+    let mut projects = Projects::new();
+    projects
+        .watcher
+        .watch("./src/projects/", RecursiveMode::Recursive)
+        .unwrap();
+
+    let paths = fs::read_dir("./src/projects/").unwrap();
+    for path in paths {
+        projects.process(path.unwrap().path());
+    }
+
+    let projects_ref = Arc::new(Mutex::new(projects));
 
     println!("Webserver running!");
     HttpServer::new(move || {
@@ -144,9 +314,12 @@ async fn main() -> std::io::Result<()> {
             .data(AppState {
                 hb: handlebars_ref.clone(),
                 assets: &ASSETS,
+                projects: projects_ref.clone(),
             })
             .service(Files::new("/static", "./static"))
             .service(index)
+            .service(get_projects)
+            .service(get_project)
             .service(get_page)
     })
     .bind("0.0.0.0:8080")?

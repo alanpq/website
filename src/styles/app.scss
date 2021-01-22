@@ -48,6 +48,7 @@ header {
 
 nav {
   display: flex;
+  align-self: flex-start;
 
   a {
     flex-grow: 1;
@@ -83,6 +84,62 @@ main {
   // p {
   //   display: inline;
   // }
+
+  &.projects {
+    display: flex;
+    flex-wrap: wrap;
+    $size: 200px;
+    a {
+      border: none;
+      img {
+        width: $size;
+        height: $size;
+      }
+
+      h2 {
+        width: $size;
+        padding: 0;
+        margin: 0;
+
+        font-size: 20px;
+        line-height: 1em;
+        text-align: center;
+
+        overflow: hidden;
+        text-overflow: ellipsis; 
+      }
+    }
+  }
+
+  &.project {
+
+    h1 {
+      grid-area: title;
+      font-size: 2rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    a {
+      img {
+        width: 200px;
+      }
+      background: none !important;
+      border: none !important;
+      float:right;
+      padding: 0 0 10px 20px;
+    }
+
+    section {
+      &.description {
+        grid-column: 1 / 3;
+        grid-row: 2/4;
+      }
+      &.links {
+        grid-area: links;
+      }
+    }
+  }
 }
 
 ul.social {
