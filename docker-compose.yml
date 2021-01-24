@@ -9,7 +9,7 @@ services:
       - "RUST_BACKTRACE=full"
     volumes:
       - .:/website
-      - type: bind
-        source: ./.cargo/
-        target: /root/.cargo/
+      # - type: bind
+      #   source: ./.cargo/
+      #   target: /root/.cargo/
     restart: unless-stopped
