@@ -339,6 +339,8 @@ fn compile_sass(filename: &str) -> String {
     let scss_file = format!("./src/styles/{}.scss", filename);
 
     if !path::Path::new(&scss_file).exists() {
+        let path = std::env::current_dir().unwrap();
+        println!("The current directory is {}", path.display());
         panic!("file not found: {}", scss_file);
     }
 
