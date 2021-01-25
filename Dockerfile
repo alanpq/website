@@ -8,6 +8,7 @@ RUN sed -i 's#src/main.rs#dummy.rs#' Cargo.toml
 RUN cargo build --release
 RUN sed -i 's#dummy.rs#src/main.rs#' Cargo.toml
 COPY . .
+RUN chmod -R +rwx .
 
 RUN cargo install --path .
 
