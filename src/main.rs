@@ -336,9 +336,11 @@ fn hash_css(css: &str) -> String {
 
 fn compile_sass(filename: &str) -> String {
     println!("Compiling '{}.css'...", filename);
-    let scss_file = format!("src/styles/{}.scss", filename);
+    let scss_file = format!("./src/styles/{}.scss", filename);
 
-    assert_eq!(path::Path::new(&scss_file).exists(), true);
+    if !path::Path::new(&scss_file).exists() {
+        panic!("file not found: {}", scss_file);
+    }
 
     let css = compile_file(&scss_file, Options::default())
         .unwrap_or_else(|_| panic!("couldn't compile sass: {}", &scss_file));
