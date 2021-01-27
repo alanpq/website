@@ -91,9 +91,10 @@ main {
     $size: 200px;
     a {
       border: none;
-      img {
+      section {
         width: $size;
         height: $size;
+        background-size: cover;
       }
 
       h2 {
