@@ -95,6 +95,7 @@ macro_rules! compileOrFetch {
 #[derive(Serialize)]
 struct ProjectFlags {
     readmeThumbnail: bool, // is thumbnail taken from the README
+    testFlag: bool,
 }
 
 #[derive(Serialize)]
