@@ -14,7 +14,20 @@ import markdown as md
 import os
 import re
 
-imageSearch = re.compile(r"\!\[.+\]\((https?:\/\/.+)\)", flags=re.IGNORECASE | re.MULTILINE)
+# HEAD request can be iffy, but good enough for our purposes
+def is_url_image(image_url):
+   image_formats = ("image/png", "image/jpeg", "image/jpg", "image/gif")
+   r = requests.head(image_url)
+   if r.headers["content-type"] in image_formats:
+      return True
+   return False
+
+
+imageSearch = re.compile(r"!\[.+\]\((https?:\/\/([a-z\.]+)\/?.*)\)", flags=re.IGNORECASE | re.MULTILINE)
+
+denylist = {
+  "img.shields.io"
+}
 
 quitTime = False
 if not "USERNAME" in os.environ:
@@ -57,14 +70,23 @@ for repo in repos:
   path = os.path.join(sys.argv[1],repo["name"] + '.yml')
   with open(path, 'w') as file: 
     markdown = str(base64.b64decode(readme["content"].replace("\\n", "")), "utf-8")
-    # print(markdown)
-    imgRes = re.search(imageSearch, markdown)
-    # print(imgRes)
+    
     thumbnail = ""
-    if imgRes:
-      print("Thumbnail found in README:")
-      thumbnail = imgRes.groups()[0]
-      print(thumbnail)
+    print("[THUMBNAIL SCAN]")
+    imgRes = re.findall(imageSearch, markdown)
+    for res in imgRes:
+      print('"'+res[0]+'"', "is ", end="")
+      if res[1] in denylist:
+        print("in deny list.")
+        continue
+      if not is_url_image(res[0]):
+        print('not an image.')
+        continue
+      print("a valid thumbnail")
+      thumbnail = res[0]
+    
+    print("[END OF THUMBNAIL SCAN]")
+    # print(imgRes)
     splits = markdown.split('\n')
     firstLine = splits[0].strip()
     title = repo["name"]
