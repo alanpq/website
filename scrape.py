@@ -12,6 +12,9 @@ import json
 import base64
 import markdown as md
 import os
+import re
+
+imageSearch = re.compile(r"!\[.+\]\((https?:\/\/.+)\)")
 
 quitTime = False
 if not "USERNAME" in os.environ:
@@ -43,8 +46,20 @@ for repo in repos:
     print(repo["full_name"])
     print("ERROR:", readme)
     continue
+
+  # TODO: implement this
+  # readme = requests.get('https://api.github.com/repos/' + repo["full_name"] +'/contents/thumbnail.png', headers=headers).json()
+  # if "message" in readme:
+  #   print(repo["full_name"])
+  #   print("ERROR:", readme)
+  #   continue
+
   with open(os.path.join(sys.argv[1],repo["name"] + '.yml'), 'w') as file: 
     markdown = str(base64.b64decode(readme["content"].replace("\\n", "")), "utf-8")
+    imgRes = imageSearch.match(markdown)
+    thumbnail = ""
+    if imgRes:
+      thumbnail = imgRes.group()
     splits = markdown.split('\n')
     firstLine = splits[0].strip()
     title = repo["name"]
@@ -58,6 +73,7 @@ for repo in repos:
     file.write("\ntitle: " + title)
     file.write("\nurl: " + repo["html_url"])
     file.write("\ndescription: \"" + desc + "\"")
+    file.write("\thumbnail: \"" + thumbnail + "\"")
   #print()
 
 sys.exit(0)
