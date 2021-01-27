@@ -41,10 +41,11 @@ if "message" in repos:
   print("ERROR:", repos["message"])
   sys.exit(1)
 for repo in repos:
+  print('=======[' + repo["full_name"] + ']=======')
   readme = requests.get('https://api.github.com/repos/' + repo["full_name"] +'/contents/README.md', headers=headers).json()
   if "message" in readme:
-    print(repo["full_name"])
     print("ERROR:", readme)
+    print()
     continue
 
   # TODO: implement this
@@ -53,19 +54,21 @@ for repo in repos:
   #   print(repo["full_name"])
   #   print("ERROR:", readme)
   #   continue
-
-  with open(os.path.join(sys.argv[1],repo["name"] + '.yml'), 'w') as file: 
+  path = os.path.join(sys.argv[1],repo["name"] + '.yml')
+  with open(path, 'w') as file: 
     markdown = str(base64.b64decode(readme["content"].replace("\\n", "")), "utf-8")
-    print(markdown)
+    # print(markdown)
     imgRes = re.search(imageSearch, markdown)
-    print(imgRes)
+    # print(imgRes)
     thumbnail = ""
     if imgRes:
+      print("Thumbnail found in README:")
       thumbnail = imgRes.groups()[0]
+      print(thumbnail)
     splits = markdown.split('\n')
     firstLine = splits[0].strip()
     title = repo["name"]
-    print(firstLine[1:])
+    print('firstLine[1:] =', firstLine[1:])
     if(firstLine[0] == "#"):
       title = firstLine[1:].strip()
       splits = splits[1:]
@@ -76,6 +79,7 @@ for repo in repos:
     file.write("\nurl: " + repo["html_url"])
     file.write("\ndescription: \"" + desc + "\"")
     file.write("\nthumbnail: \"" + thumbnail + "\"")
-  #print()
+    print('\nwritten to "' + path + '".')
+  print()
 
 sys.exit(0)
