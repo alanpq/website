@@ -27,7 +27,7 @@ if quitTime:
 
 data = os.environ["USERNAME"] + ":" + os.environ["TOKEN"]
 headers = {
-  'Authorization': 'Basic ' + base64.b64encode(data.encode("utf-8"))
+  'Authorization': 'Basic ' + str(base64.b64encode(data.encode("utf-8")), "utf-8")
 }
 r = requests.get('https://api.github.com/users/' + os.environ["USERNAME"] + '/repos', headers=headers)
 repos = r.json()
