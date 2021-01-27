@@ -5,17 +5,31 @@
 # curl \
 #   -H "Accept: application/vnd.github.v3+json" \
 #   https://api.github.com/users/oofsauce/repos
-
+#!/usr/bin/env python3
 import sys
 import requests
 import json
 import base64
 import markdown as md
 import os
+
+quitTime = False
+if not "USERNAME" in os.environ:
+  print("'USERNAME' env var not set!")
+  quitTime = True
+
+if not "TOKEN" in os.environ:
+  print("'TOKEN' env var not set!")
+  quitTime = True
+
+if quitTime:
+  sys.exit(1)
+
+data = os.environ["USERNAME"] + ":" + os.environ["TOKEN"]
 headers = {
-  'Authorization': 'Basic b29mc2F1Y2U6M2M2MTNkMTZhOTQyZTMwZDUyZGNmNjYzYTU5ZWJjNDAzOTIyZjk5NA=='
+  'Authorization': 'Basic ' + base64.b64encode(data.encode("utf-8"))
 }
-r = requests.get('https://api.github.com/users/oofsauce/repos', headers=headers)
+r = requests.get('https://api.github.com/users/' + os.environ["USERNAME"] + '/repos', headers=headers)
 repos = r.json()
 if len(sys.argv) < 2:
   print("No target directory specified!")
