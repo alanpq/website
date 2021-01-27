@@ -93,6 +93,11 @@ macro_rules! compileOrFetch {
 }
 
 #[derive(Serialize)]
+struct ProjectFlags {
+    readmeThumbnail: bool, // is thumbnail taken from the README
+}
+
+#[derive(Serialize)]
 struct Project {
     id: String,
     thumbnail: String,
@@ -101,6 +106,7 @@ struct Project {
     url: String,
     stars: i64,
     forks: i64,
+    flags: ProjectFlags,
 }
 
 struct Projects {
