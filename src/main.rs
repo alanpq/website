@@ -175,7 +175,7 @@ impl Projects {
                 self.value.lock().unwrap().insert(id.to_string(),
                     Project {
                         id: id.to_string(),
-                        thumbnail: String::from(getValue!(doc, "thumbnail", as_str, "default")),
+                        thumbnail: String::from(getValue!(doc, "thumbnail", as_str, "")),
                         title: String::from(getValue!(doc, "title", as_str, "default")),
                         description: String::from(getValue!(doc, "description", as_str, "default")),
                         url: String::from(getValue!(doc, "url", as_str, "")),

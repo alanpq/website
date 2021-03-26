@@ -27,8 +27,12 @@ html, body {
 }
 
 p {
-  font-family: 'Bitter', serif;
-  text-align: justify;
+  // font-family: 'Bitter', serif;
+  // text-align: justify;
+}
+
+i {
+  color: var(--fg2);
 }
 
 body {
@@ -121,15 +125,15 @@ main {
       padding: 0;
     }
 
-    a {
-      img {
-        width: 200px;
-      }
-      background: none !important;
-      border: none !important;
-      float:right;
-      padding: 0 0 10px 20px;
-    }
+    // a {
+    //   img {
+    //     width: 200px;
+    //   }
+    //   background: none !important;
+    //   border: none !important;
+    //   float:right;
+    //   padding: 0 0 10px 20px;
+    // }
 
     section {
       &.description {
