@@ -126,16 +126,21 @@ impl ProjectFlags {
 
 #[derive(Serialize, Clone)]
 struct Project {
-    id: String,
-    category: String,
-    thumbnail: String,
-    title: String,
-    description: String,
-    url: String,
-    github: String,
-    stars: i64,
-    forks: i64,
-    flags: ProjectFlags,
+    id: String,          // project id
+    category: String,    // current categories are: main, other
+
+    title: String,       // project title
+    description: String, // short text-only description
+    body: String,        // full project description (contains HTML)
+
+    thumbnail: String,   // optional (although needed if in main category)
+
+    url: String,         // url to project
+    github: String,      // url to github
+
+    stars: i64,          // number of github stars
+    forks: i64,          // number of github forks
+    flags: ProjectFlags, // misc flags
 }
 
 struct Projects {
@@ -189,6 +194,7 @@ impl Projects {
                         category,
                         thumbnail: String::from(getValue!(doc, "thumbnail", as_str, "")),
                         title: String::from(getValue!(doc, "title", as_str, "default")),
+                        body: String::from(getValue!(doc, "body", as_str, "default")),
                         description: String::from(getValue!(doc, "description", as_str, "default")),
                         url: String::from(getValue!(doc, "url", as_str, "")),
                         github: String::from(getValue!(doc, "github", as_str, "")),
