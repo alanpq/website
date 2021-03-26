@@ -15,21 +15,21 @@
   {{>partials/nav}}
   <main class="project">
     {{#with project}}
-    {{#if thumbnail}}
-    <a href="{{url}}"><img src="{{thumbnail}}" /></a>
-    {{/if}}
-    <h1>{{title}}</h1>
-    <section class="description">
-      {{{description}}}
-    </section>
-    <section class="links">
-      {{#if url}}
-        <a href="{{url}}" target="_blank">View Project</a>
+      {{#if thumbnail}}
+        <a href="{{url}}"><img src="{{thumbnail}}" /></a>
       {{/if}}
-      {{#if github}}
-        <a href="{{github}}" target="_blank">Github Page</a>
-      {{/if}}
-    </section>
+      <h1>{{title}}</h1>
+      <section class="description">
+        {{{description}}}
+      </section>
+      <section class="links">
+        {{#if url}}
+          <a href="{{url}}" target="_blank">View Project</a>
+        {{/if}}
+        {{#if github}}
+          <a href="{{github}}" target="_blank">Github Page</a>
+        {{/if}}
+      </section>
     {{/with}}
   </main>
   {{>partials/footer}}

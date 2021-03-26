@@ -91,9 +91,10 @@ main {
 
   &.projects {
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
     $size: 200px;
-    a {
+    article.main a {
       border: none;
       section {
         width: $size;
@@ -112,6 +113,23 @@ main {
 
         overflow: hidden;
         text-overflow: ellipsis; 
+      }
+    }
+
+    article.other {
+      display: flex;
+      flex-direction: column;
+      a {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        border: none;
+        h2 {
+          margin: 0;
+        }
+        p {
+          margin: 0 0 0 20px;
+        }
       }
     }
   }

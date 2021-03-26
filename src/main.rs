@@ -98,7 +98,7 @@ macro_rules! getValue {
     }
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, Clone)]
 struct ProjectFlags {
     readme_thumbnail: bool, // is thumbnail taken from the README
 }
@@ -124,9 +124,10 @@ impl ProjectFlags {
     }
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, Clone)]
 struct Project {
     id: String,
+    category: String,
     thumbnail: String,
     title: String,
     description: String,
@@ -141,6 +142,7 @@ struct Projects {
     rx: Receiver<notify::DebouncedEvent>,
     watcher: RecommendedWatcher,
     value: Arc<Mutex<HashMap<String, Project>>>,
+    by_category: Arc<Mutex<HashMap<String, Vec<String>>>>,
 }
 
 
@@ -152,6 +154,7 @@ impl Projects {
             rx: rx,
             watcher: watcher,
             value: Arc::new(Mutex::new(HashMap::new())),
+            by_category: Arc::new(Mutex::new(HashMap::new())),
         };
     }
 
@@ -172,9 +175,18 @@ impl Projects {
         let doc = &docs.unwrap()[0];
         match doc["id"].as_str() {
             Some(id) => {
+                let category = String::from(getValue!(doc, "category", as_str, "other"));
+
+                let mut by_category = self.by_category.lock().unwrap();
+                if !by_category.contains_key(&category) {
+                    by_category.insert(category.clone(), Vec::new());
+                }
+                by_category.get_mut(&category).unwrap().push(id.to_string());
+                
                 self.value.lock().unwrap().insert(id.to_string(),
                     Project {
                         id: id.to_string(),
+                        category,
                         thumbnail: String::from(getValue!(doc, "thumbnail", as_str, "")),
                         title: String::from(getValue!(doc, "title", as_str, "default")),
                         description: String::from(getValue!(doc, "description", as_str, "default")),
@@ -216,6 +228,10 @@ impl Projects {
         });
         return self.value.clone();
     }
+
+    fn categories(&self) -> Arc<Mutex<HashMap<String, Vec<String>>>> {
+        return self.by_category.clone();
+    }
 }
 
 struct AppState<'a> {
@@ -231,10 +247,20 @@ async fn index(data: web::Data<AppState<'_>>) -> impl Responder {
 
 #[get("/projects")]
 async fn get_projects(data: web::Data<AppState<'_>>) -> impl Responder {
-    let proj = &data.projects.lock().unwrap().value();
-    let map = proj.lock().unwrap();
+    let all = &data.projects.lock().unwrap().value();
+    let all = all.lock().unwrap();
+    let categories = &data.projects.lock().unwrap().categories();
+    let categories = categories.lock().unwrap();
+
+    let map: HashMap<String, Vec<Project>> = categories.iter().map(|(k,v)| {
+        let projects: Vec<Project> = v.iter().map(|id| {
+            all.get(id).unwrap().clone()
+        }).collect();
+        return (k.clone(), projects)
+    }).collect();
+
     render_template(String::from("projects"), data, Some(json!({
-        "projects": Vec::from_iter(map.values())
+        "categories": map,
     })))
 }
 

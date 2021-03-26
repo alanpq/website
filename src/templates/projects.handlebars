@@ -14,13 +14,23 @@
   </header>
   {{>partials/nav}}
   <main class="projects">
-    {{#each projects}}
-      <a href="/projects/{{id}}">
-        {{!-- {{../prefix}} {{firstname}} --}}
-        <section style="background-image:url({{thumbnail}});"></section>
-        <h2>{{title}}</h2>
-      </a>
-    {{/each}}
+    <article class="main">
+      {{#each categories.main}}
+        <a href="/projects/{{id}}">
+          {{!-- {{../prefix}} {{firstname}} --}}
+          <section style="background-image:url({{thumbnail}});"></section>
+          <h2>{{title}}</h2>
+        </a>
+      {{/each}}
+    </article>
+    <article class="other">
+      {{#each categories.other}}
+        <a href="/projects/{{id}}">
+          <h2>{{title}}</h2>
+          <p>{{subtitle}}hello world</p>
+        </a>
+      {{/each}}
+    </article>
   </main>
   {{>partials/footer}}
 </body>
