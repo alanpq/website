@@ -20,7 +20,7 @@ extern crate serde_json;
 extern crate lazy_static;
 
 extern crate yaml_rust;
-use yaml_rust::{YamlEmitter, YamlLoader};
+use yaml_rust::{Yaml, YamlEmitter, YamlLoader};
 
 extern crate notify;
 use notify::{watcher, DebouncedEvent, RecommendedWatcher, RecursiveMode, Watcher};
@@ -92,10 +92,34 @@ macro_rules! compileOrFetch {
     };
 }
 
+macro_rules! getValue {
+    ($doc:ident, $key:literal, $as:tt, $default:literal) => {
+        $doc[$key].$as().unwrap_or($default)
+    }
+}
+
 #[derive(Serialize)]
 struct ProjectFlags {
-    readmeThumbnail: bool, // is thumbnail taken from the README
-    testFlag: bool,
+    readme_thumbnail: bool, // is thumbnail taken from the README
+}
+
+impl ProjectFlags {
+    fn from(doc: &Yaml) -> ProjectFlags {
+        match doc["flags"].as_str() {
+            Some(flags) => {
+                println!("{}", flags);
+                return ProjectFlags {
+                    // readme_thumbnail: getValue!(flags, "readme_thumbnail", as_bool, false),
+                    readme_thumbnail: false,
+                }
+            },
+            None => {
+                return ProjectFlags {
+                    readme_thumbnail: false,
+                }
+            }
+        }
+    }
 }
 
 #[derive(Serialize)]
@@ -116,11 +140,6 @@ struct Projects {
     value: Arc<Mutex<HashMap<String, Project>>>,
 }
 
-macro_rules! getValue {
-    ($doc:ident, $key:literal, $as:tt, $default:literal) => {
-        $doc[$key].$as().unwrap_or($default)
-    }
-}
 
 impl Projects {
     fn new() -> Projects {
@@ -159,6 +178,7 @@ impl Projects {
                         url: String::from(getValue!(doc, "url", as_str, "default")),
                         stars: getValue!(doc, "stars", as_i64, 0),
                         forks: getValue!(doc, "forks", as_i64, 0),
+                        flags: ProjectFlags::from(doc)
                     },
                 );
             }
