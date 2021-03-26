@@ -105,12 +105,14 @@ struct ProjectFlags {
 
 impl ProjectFlags {
     fn from(doc: &Yaml) -> ProjectFlags {
-        match doc["flags"].as_str() {
+        println!("{:?}", doc["flags"]);
+        match doc["flags"].as_hash() {
             Some(flags) => {
-                println!("{}", flags);
+                println!("{:?}", flags);
+                let rt = flags.get(&Yaml::from_str("readme_thumbnail")).unwrap();
                 return ProjectFlags {
-                    // readme_thumbnail: getValue!(flags, "readme_thumbnail", as_bool, false),
-                    readme_thumbnail: false,
+                    readme_thumbnail: rt.as_bool().unwrap_or(false),
+                    // readme_thumbnail: false,
                 }
             },
             None => {
@@ -129,6 +131,7 @@ struct Project {
     title: String,
     description: String,
     url: String,
+    github: String,
     stars: i64,
     forks: i64,
     flags: ProjectFlags,
@@ -175,7 +178,8 @@ impl Projects {
                         thumbnail: String::from(getValue!(doc, "thumbnail", as_str, "default")),
                         title: String::from(getValue!(doc, "title", as_str, "default")),
                         description: String::from(getValue!(doc, "description", as_str, "default")),
-                        url: String::from(getValue!(doc, "url", as_str, "default")),
+                        url: String::from(getValue!(doc, "url", as_str, "")),
+                        github: String::from(getValue!(doc, "github", as_str, "")),
                         stars: getValue!(doc, "stars", as_i64, 0),
                         forks: getValue!(doc, "forks", as_i64, 0),
                         flags: ProjectFlags::from(doc)
@@ -192,7 +196,7 @@ impl Projects {
             }
         }
         
-        println!("{:?}", doc);
+        // println!("{:?}", doc);
     }
 
     fn value(&self) -> Arc<Mutex<HashMap<String, Project>>> {
