@@ -38,6 +38,7 @@ use std::iter::FromIterator;
 struct CSSFiles {
     app: String,
     fonts: String,
+    // pages: HashMap<String, String>
     //vendor: String,
 }
 #[derive(Clone, Serialize)]
@@ -64,7 +65,7 @@ lazy_static! {
         AssetFiles {
             css: CSSFiles {
                 app: app_css_file,
-                fonts: fonts_css_file,
+                fonts: fonts_css_file
             //    vendor: vendor_css_file,
             },
             //js: JSFiles { app: app_js_file },
@@ -182,27 +183,31 @@ impl Projects {
             Some(id) => {
                 let category = String::from(getValue!(doc, "category", as_str, "other"));
 
-                let mut by_category = self.by_category.lock().unwrap();
-                if !by_category.contains_key(&category) {
-                    by_category.insert(category.clone(), Vec::new());
-                }
-                by_category.get_mut(&category).unwrap().push(id.to_string());
+                let mut projects = self.value.lock().unwrap();
+                let project = Project {
+                    id: id.to_string(),
+                    category: category.clone(),
+                    thumbnail: String::from(getValue!(doc, "thumbnail", as_str, "")),
+                    title: String::from(getValue!(doc, "title", as_str, "default")),
+                    body: String::from(getValue!(doc, "body", as_str, "default")),
+                    description: String::from(getValue!(doc, "description", as_str, "default")),
+                    url: String::from(getValue!(doc, "url", as_str, "")),
+                    github: String::from(getValue!(doc, "github", as_str, "")),
+                    stars: getValue!(doc, "stars", as_i64, 0),
+                    forks: getValue!(doc, "forks", as_i64, 0),
+                    flags: ProjectFlags::from(doc)
+                };
                 
-                self.value.lock().unwrap().insert(id.to_string(),
-                    Project {
-                        id: id.to_string(),
-                        category,
-                        thumbnail: String::from(getValue!(doc, "thumbnail", as_str, "")),
-                        title: String::from(getValue!(doc, "title", as_str, "default")),
-                        body: String::from(getValue!(doc, "body", as_str, "default")),
-                        description: String::from(getValue!(doc, "description", as_str, "default")),
-                        url: String::from(getValue!(doc, "url", as_str, "")),
-                        github: String::from(getValue!(doc, "github", as_str, "")),
-                        stars: getValue!(doc, "stars", as_i64, 0),
-                        forks: getValue!(doc, "forks", as_i64, 0),
-                        flags: ProjectFlags::from(doc)
-                    },
-                );
+                match projects.insert(id.to_string(),project) {
+                    Some(_) => {},
+                    None => {
+                        let mut by_category = self.by_category.lock().unwrap();
+                        if !by_category.contains_key(&category) {
+                            by_category.insert(category.clone(), Vec::new());
+                        }
+                        by_category.get_mut(&category).unwrap().push(id.to_string());
+                    }
+                }
             }
             None => {
                 println!(
@@ -386,7 +391,7 @@ async fn main() -> std::io::Result<()> {
             .service(get_project)
             .service(get_page)
     })
-    .bind("0.0.0.0:8080")?
+    .bind("0.0.0.0:9090")?
     .run()
     .await
 }
