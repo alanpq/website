@@ -36,23 +36,31 @@ i {
 }
 
 body {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 56px auto;
+  grid-template-rows: auto auto auto auto auto;
+  grid-template-areas:
+    "back header"
+    "nav nav"
+    "main main"
+    "footer footer";
 
   justify-content: center;
   align-content: flex-start;
   padding: 0 10%;
-  grid-template-columns: 1fr;
 }
 
 header {
-  grid-column: 2 / 3;
-  grid-row: 1 / 2;
+  // grid-column: 2 / 3;
+  // grid-row: 1 / 2;
+  grid-area: header;
 }
 
 nav {
   display: flex;
   align-self: flex-start;
+
+  grid-area: nav;
 
   a {
     box-sizing: border-box;
@@ -86,11 +94,14 @@ nav {
 }
 
 main {
-  grid-column: 2 / 3;
-  grid-row: 2/3;
+  // grid-column: 2 / 3;
+  // grid-row: 2/3;
+  grid-area: main;
   // p {
   //   display: inline;
   // }
+
+  padding: 0 0 100px 0;
 
   &.projects {
     display: flex;
@@ -150,6 +161,12 @@ main {
       padding: 0;
     }
 
+    img {
+      // max-width: ;
+      width: 100%;
+      height: auto;
+    }
+
     .subtitle {
       display: block;
       margin-bottom: 1em;
@@ -179,8 +196,9 @@ main {
 
 
 button.back {
-  grid-column: 0/1;
-  grid-row: 0/1;
+  // grid-column: 0/1;
+  // grid-row: 0/1;
+  grid-area: back;
   justify-self: end;
   align-self: center;
 
@@ -246,10 +264,13 @@ a {
 
 @media (min-width: 750px) {
   body {
-    display: grid;
     grid-template-columns: minmax(100px, 200px) minmax(500px, 600px);
+    grid-template-areas:
+      "back header"
+      "nav main"
+      "footer footer";
 
-    padding: 10% 0 0 0;
+    padding: 100px 0 0 0;
   }
 
   main {
@@ -257,8 +278,8 @@ a {
   }
   
   nav {
-    grid-column: 1 / 2;
-    grid-row: 2 / 3;
+    // grid-column: 1 / 2;
+    // grid-row: 2 / 3;
     justify-self: end;
     flex-direction: column;
 
