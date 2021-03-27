@@ -130,8 +130,12 @@ main {
         h2 {
           margin: 0;
         }
+        &:hover p {
+          color: var(--bg2);
+        }
         p {
           margin: 0 0 0 20px;
+          color: var(--fg3);
         }
       }
     }
