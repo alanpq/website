@@ -13,6 +13,9 @@
     <h1>Projects</h1>
   </header>
   {{>partials/nav}}
+  <button class="back" title="Back" onclick="history.back()">
+    <img src="/static/img/back.svg" />
+  </button>
   <main class="project">
     {{#with project}}
       {{#if thumbnail}}
