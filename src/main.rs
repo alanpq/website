@@ -275,6 +275,7 @@ async fn get_projects(data: web::Data<AppState<'_>>) -> impl Responder {
     })))
 }
 
+// FIXME: project url with trailing '/' does not render
 #[get("/projects/{id}")]
 async fn get_project(
     web::Path(id): web::Path<String>,
