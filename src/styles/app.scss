@@ -29,6 +29,14 @@ html, body {
 p {
   // font-family: 'Bitter', serif;
   // text-align: justify;
+  a {
+    border: none !important;
+    text-decoration: underline currentColor;
+    text-underline-offset: 3px;
+    &:hover, &:active {
+      text-decoration: none;
+    }
+  }
 }
 
 i {
