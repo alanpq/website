@@ -12,6 +12,11 @@
   --fg2: rgb(224, 219, 206);
   --fg3: rgb(182, 178, 168);
   --fg4: rgb(136, 133, 125);
+
+  --accent1: rgb(253, 141, 98);
+  --accent2: rgb(224, 121, 81);
+  --accent3: rgb(199, 93, 66);
+  --accent4: rgb(170, 61, 47);
 }
 
 * {
@@ -283,14 +288,14 @@ ul.social {
 
 a {
   padding: 1px 2px;
-  color: var(--fg2);
+  color: var(--accent1);
   border-bottom: 1px solid currentColor;
 
   cursor: pointer;
 
   &:hover {
-    color: var(--bg2);
-    background: var(--fg2);
+    color: var(--bg1);
+    background: var(--accent1);
     // border-bottom: 1px solid var(--fg2);
   }
 }
