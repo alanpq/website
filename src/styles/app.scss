@@ -180,8 +180,11 @@ main {
         h2 {
           margin: 0;
         }
-        &:hover p {
-          color: var(--bg2);
+        &:hover {
+          box-shadow: -3px 0px 0px 0px var(--accent1);
+          p {
+            color: var(--bg2);
+          }
         }
         p {
           margin: 0 0 0 20px;
@@ -287,7 +290,7 @@ ul.social {
 }
 
 a {
-  padding: 1px 2px;
+  // padding: 1px 2px;
   color: var(--accent1);
   border-bottom: 1px solid currentColor;
 
@@ -296,6 +299,8 @@ a {
   &:hover {
     color: var(--bg1);
     background: var(--accent1);
+    box-shadow: 0px 0px 0px 3px var(--accent1);
+    border: none;
     // border-bottom: 1px solid var(--fg2);
   }
 }
@@ -334,6 +339,9 @@ a {
       &.active {
         border-bottom: none !important;
         border-right: 2px solid var(--fg1);
+      }
+      &:hover {
+        box-shadow: none;
       }
     }
   }
