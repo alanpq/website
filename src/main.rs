@@ -13,6 +13,11 @@ use sass_rs::{compile_file, Options};
 
 use serde::Serialize;
 
+mod project;
+mod projects;
+use project::{Project};
+use projects::{Projects};
+
 #[macro_use]
 extern crate serde_json;
 
@@ -91,158 +96,6 @@ macro_rules! compileOrFetch {
             String::from(&$data.assets.$assetA.$assetB)
         }
     };
-}
-
-macro_rules! getValue {
-    ($doc:ident, $key:literal, $as:tt, $default:literal) => {
-        $doc[$key].$as().unwrap_or($default)
-    }
-}
-
-#[derive(Serialize, Clone)]
-struct ProjectFlags {
-    readme_thumbnail: bool, // is thumbnail taken from the README
-}
-
-impl ProjectFlags {
-    fn from(doc: &Yaml) -> ProjectFlags {
-        println!("{:?}", doc["flags"]);
-        match doc["flags"].as_hash() {
-            Some(flags) => {
-                println!("{:?}", flags);
-                let rt = flags.get(&Yaml::from_str("readme_thumbnail")).unwrap();
-                return ProjectFlags {
-                    readme_thumbnail: rt.as_bool().unwrap_or(false),
-                    // readme_thumbnail: false,
-                }
-            },
-            None => {
-                return ProjectFlags {
-                    readme_thumbnail: false,
-                }
-            }
-        }
-    }
-}
-
-#[derive(Serialize, Clone)]
-struct Project {
-    id: String,          // project id
-    category: String,    // current categories are: main, other
-
-    title: String,       // project title
-    description: String, // short text-only description
-    body: String,        // full project description (contains HTML)
-
-    thumbnail: String,   // optional (although needed if in main category)
-
-    url: String,         // url to project
-    github: String,      // url to github
-
-    stars: i64,          // number of github stars
-    forks: i64,          // number of github forks
-    flags: ProjectFlags, // misc flags
-}
-
-struct Projects {
-    rx: Receiver<notify::DebouncedEvent>,
-    watcher: RecommendedWatcher,
-    value: Arc<Mutex<HashMap<String, Project>>>,
-    by_category: Arc<Mutex<HashMap<String, Vec<String>>>>,
-}
-
-
-impl Projects {
-    fn new() -> Projects {
-        let (tx, rx) = channel();
-        let watcher = watcher(tx, Duration::from_secs(2)).unwrap();
-        return Projects {
-            rx: rx,
-            watcher: watcher,
-            value: Arc::new(Mutex::new(HashMap::new())),
-            by_category: Arc::new(Mutex::new(HashMap::new())),
-        };
-    }
-
-    fn process(&self, path: std::path::PathBuf) {
-        let file = File::open(path.clone());
-        if file.is_err() {
-            println!("File '{}' not found!", path.to_str().unwrap());
-            return;
-        }
-        let mut file = file.unwrap();
-        let mut s = String::new();
-        file.read_to_string(&mut s).unwrap();
-        let docs = YamlLoader::load_from_str(&s);
-        if docs.is_err() {
-            return;
-        }
-
-        let doc = &docs.unwrap()[0];
-        match doc["id"].as_str() {
-            Some(id) => {
-                let category = String::from(getValue!(doc, "category", as_str, "other"));
-
-                let mut projects = self.value.lock().unwrap();
-                let project = Project {
-                    id: id.to_string(),
-                    category: category.clone(),
-                    thumbnail: String::from(getValue!(doc, "thumbnail", as_str, "")),
-                    title: String::from(getValue!(doc, "title", as_str, "default")),
-                    body: String::from(getValue!(doc, "body", as_str, "default")),
-                    description: String::from(getValue!(doc, "description", as_str, "default")),
-                    url: String::from(getValue!(doc, "url", as_str, "")),
-                    github: String::from(getValue!(doc, "github", as_str, "")),
-                    stars: getValue!(doc, "stars", as_i64, 0),
-                    forks: getValue!(doc, "forks", as_i64, 0),
-                    flags: ProjectFlags::from(doc)
-                };
-                
-                match projects.insert(id.to_string(),project) {
-                    Some(_) => {},
-                    None => {
-                        let mut by_category = self.by_category.lock().unwrap();
-                        if !by_category.contains_key(&category) {
-                            by_category.insert(category.clone(), Vec::new());
-                        }
-                        by_category.get_mut(&category).unwrap().push(id.to_string());
-                    }
-                }
-            }
-            None => {
-                println!(
-                    "'{}' - Project ID not found!",
-                    path.into_os_string()
-                        .into_string()
-                        .unwrap_or(String::from("???"))
-                );
-            }
-        }
-        
-        // println!("{:?}", doc);
-    }
-
-    fn value(&self) -> Arc<Mutex<HashMap<String, Project>>> {
-        println!("fetching project values");
-
-        self.rx.try_iter().for_each(|e: DebouncedEvent| match e {
-            DebouncedEvent::NoticeWrite(p)  => self.process(p),
-            DebouncedEvent::NoticeRemove(p) => self.process(p),
-            DebouncedEvent::Create(p)       => self.process(p),
-            DebouncedEvent::Write(p)        => self.process(p),
-            DebouncedEvent::Chmod(p)        => self.process(p),
-            DebouncedEvent::Remove(p)       => {
-                self.value.lock().unwrap().remove(&String::from(p.file_name().unwrap().to_str().unwrap()));
-            },
-            DebouncedEvent::Rename(_, p)    => self.process(p),
-            _ => {}
-        });
-        return self.value.clone();
-    }
-
-    fn categories(&self) -> Arc<Mutex<HashMap<String, Vec<String>>>> {
-        return self.by_category.clone();
-    }
 }
 
 struct AppState<'a> {
