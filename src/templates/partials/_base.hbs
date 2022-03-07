@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alan Panayotov | {{>title}}</title>
+  <link rel="stylesheet" href="/static/styles/app.css">
+  {{>head}}
+  <script defer data-domain="alanp.me" src="https://analytics.alanp.me/js/plausible.js"></script>
+</head>
+
+<body>
+  <header>
+    <h1>{{>heading}}</h1>
+  </header>
+  {{>partials/nav}}
+  {{>post_nav}}
+  <main>
+    {{>content}}
+  </main>
+  {{>partials/footer}}
+</body>
+
+</html>

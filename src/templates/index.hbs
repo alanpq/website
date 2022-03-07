@@ -1,24 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
+{{#*inline "title"}}
+Home
+{{/inline}}
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alan Panayotov</title>
-  <link rel="stylesheet" href="{{app_css}}">
-  <script defer data-domain="alanp.me" src="https://analytics.alanp.me/js/plausible.js"></script>
-</head>
+{{#*inline "heading"}}
+Alan Panayotov
+{{/inline}}
 
-<body>
-  <header>
-    <h1>Alan Panayotov</h1>
-  </header>
-  {{>partials/nav}}
-  <main>
-    <p>Hi, I'm Alan, and I'm a student at UCC interested in fullstack web and game development.</p>
-    {{>partials/socials}}
-  </main>
-  {{>partials/footer}}
-</body>
-
-</html>
+{{#*inline "content"}}
+  <p>Hi, I'm Alan, and I'm a student at UCC interested in fullstack web and game development.</p>
+  {{>partials/socials}}
+{{/inline}}
+{{>partials/_base}}

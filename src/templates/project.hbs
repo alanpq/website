@@ -1,43 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
+{{#*inline "title"}}
+Projects
+{{/inline}}
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alan Panayotov</title>
-  <link rel="stylesheet" href="{{app_css}}">
-  <script defer data-domain="alanp.me" src="https://analytics.alanp.me/js/plausible.js"></script>
-</head>
+{{#*inline "heading"}}
+Projects
+{{/inline}}
 
-<body>
-  <header>
-    <h1>Projects</h1>
-  </header>
-  {{>partials/nav}}
+{{#*inline "head"}}
+  <link rel="stylesheet" href="/static/styles/project.css">
+{{/inline}}
+
+{{#*inline "post_nav"}}
   <button class="back" title="Back" onclick="history.back()">
     <img src="/static/img/back.svg" />
   </button>
-  <main class="project">
-    {{#with project}}
-      {{#if thumbnail}}
-        <a href="{{url}}"><img src="{{thumbnail}}" /></a>
-      {{/if}}
-      <h1>{{title}}</h1>
-      <i class="subtitle">{{description}}</i>
-      <section class="description">
-        {{{body}}}
-      </section>
-      <section class="links">
-        {{#if url}}
-          <a href="{{url}}" target="_blank">View Project</a>
-        {{/if}}
-        {{#if github}}
-          <a href="{{github}}" target="_blank">Github Page</a>
-        {{/if}}
-      </section>
-    {{/with}}
-  </main>
-  {{>partials/footer}}
-</body>
+{{/inline}}
 
-</html>
+{{#*inline "content"}}
+  {{#with project}}
+    {{#if thumbnail}}
+      <a href="{{url}}"><img src="{{thumbnail}}" /></a>
+    {{/if}}
+    <h1>{{title}}</h1>
+    <i class="subtitle">{{description}}</i>
+    <section class="description">
+      {{{body}}}
+    </section>
+    <section class="links">
+      {{#if url}}
+        <a href="{{url}}" target="_blank">View Project</a>
+      {{/if}}
+      {{#if github}}
+        <a href="{{github}}" target="_blank">Github Page</a>
+      {{/if}}
+    </section>
+  {{/with}}
+{{/inline}}
+{{>partials/_base}}

@@ -1,39 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
+{{#*inline "title"}}
+Projects
+{{/inline}}
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alan Panayotov</title>
-  <link rel="stylesheet" href="{{app_css}}">
-  <script defer data-domain="alanp.me" src="https://analytics.alanp.me/js/plausible.js"></script>
-</head>
+{{#*inline "heading"}}
+Projects
+{{/inline}}
 
-<body>
-  <header>
-    <h1>Projects</h1>
-  </header>
-  {{>partials/nav}}
-  <main class="projects">
-    <article class="main">
-      {{#each categories.main}}
-        <a href="/projects/{{id}}">
-          {{!-- {{../prefix}} {{firstname}} --}}
-          <section style="background-image:url({{thumbnail}});"></section>
-          <h2>{{title}}</h2>
-        </a>
-      {{/each}}
-    </article>
-    <article class="other">
-      {{#each categories.other}}
-        <a href="/projects/{{id}}">
-          <h2>{{title}}</h2>
-          <p>{{description}}</p>
-        </a>
-      {{/each}}
-    </article>
-  </main>
-  {{>partials/footer}}
-</body>
+{{#*inline "head"}}
+  <link rel="stylesheet" href="/static/styles/projects.css">
+{{/inline}}
 
-</html>
+{{#*inline "content"}}
+  <article class="main">
+    {{#each categories.main}}
+      <a href="/projects/{{id}}">
+        {{!-- {{../prefix}} {{firstname}} --}}
+        <section style="background-image:url({{thumbnail}});"></section>
+        <h2>{{title}}</h2>
+      </a>
+    {{/each}}
+  </article>
+  <article class="other">
+    {{#each categories.other}}
+      <a href="/projects/{{id}}">
+        <h2>{{title}}</h2>
+        <p>{{description}}</p>
+      </a>
+    {{/each}}
+  </article>
+{{/inline}}
+{{>partials/_base}}

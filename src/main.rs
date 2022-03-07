@@ -199,7 +199,7 @@ fn render_template(
     if CONFIG.dev {
         let mut handlebars = Handlebars::new();
         handlebars
-            .register_templates_directory(".handlebars", "./src/templates")
+            .register_templates_directory(".hbs", "./src/templates")
             .unwrap();
         render_fail_wrapper(handlebars.render(page.as_str(), &d))
     } else {
@@ -215,7 +215,7 @@ async fn main() -> std::io::Result<()> {
     // Application Builder as an atomic reference-counted pointer.
     let mut handlebars = Handlebars::new();
     handlebars
-        .register_templates_directory(".handlebars", "./src/templates")
+        .register_templates_directory(".hbs", "./src/templates")
         .unwrap();
     let handlebars_ref = web::Data::new(handlebars);
     let mut projects = Projects::new();
@@ -269,8 +269,8 @@ fn compile_sass(filename: &str) -> String {
     let css = compile_file(&scss_file, Options::default())
         .unwrap_or_else(|_| panic!("couldn't compile sass: {}", &scss_file));
 
-    let css_sha = format!("{}_{}", filename, hash_css(&css));
-    let css_file = format!("./static/styles/{}.css", css_sha);
+    // let css_sha = format!("{}_{}", filename, hash_css(&css));
+    let css_file = format!("./static/styles/{}.css", filename);
 
     fs::write(&css_file, css.into_bytes())
         .unwrap_or_else(|_| panic!("couldn't write css file: {}", &css_file));

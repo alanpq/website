@@ -1,21 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
+{{#*inline "title"}}
+Awards
+{{/inline}}
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alan Panayotov</title>
-  <link rel="stylesheet" href="{{app_css}}">
-  <script defer data-domain="alanp.me" src="https://analytics.alanp.me/js/plausible.js"></script>
-</head>
+{{#*inline "heading"}}
+Awards
+{{/inline}}
 
-<body>
-  <header>
-    <h1>Awards</h1>
-  </header>
-  {{>partials/nav}}
-  <main>
-    <p>Here are some of my notable awards and achievements.</p>
+{{#*inline "content"}}
+  <p>Here are some of my notable awards and achievements.</p>
     <br/>
     <!-- TODO: auto generate this list -->
     <!-- TODO: individual award hyperlinking -->
@@ -71,8 +63,5 @@
         <p>Made a <a href="/projects/tree">game</a>, which won 1st place in the 'Games/Web Apps' category. The competition had 60 projects total across all categories that year.</p>
       </section>
     </article>
-  </main>
-  {{>partials/footer}}
-</body>
-
-</html>
+{{/inline}}
+{{>partials/_base}}
