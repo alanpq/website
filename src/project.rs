@@ -1,3 +1,4 @@
+use log::debug;
 use serde::Serialize;
 use yaml_rust::Yaml;
 
@@ -8,10 +9,10 @@ pub struct ProjectFlags {
 
 impl ProjectFlags {
   pub fn from(doc: &Yaml) -> ProjectFlags {
-    println!("{:?}", doc["flags"]);
+    debug!("{:?}", doc["flags"]);
     match doc["flags"].as_hash() {
       Some(flags) => {
-        println!("{:?}", flags);
+        debug!("{:?}", flags);
         let rt = flags.get(&Yaml::from_str("readme_thumbnail")).unwrap();
         return ProjectFlags {
           readme_thumbnail: rt.as_bool().unwrap_or(false),

@@ -1,3 +1,4 @@
+use log::error;
 use notify::{watcher, DebouncedEvent, RecommendedWatcher};
 use yaml_rust::YamlLoader;
 use std::sync::mpsc::{channel, Receiver};
@@ -39,7 +40,7 @@ impl Projects {
   pub fn process(&self, path: std::path::PathBuf) {
       let file = File::open(path.clone());
       if file.is_err() {
-          println!("File '{}' not found!", path.to_str().unwrap());
+          error!("File '{}' not found!", path.to_str().unwrap());
           return;
       }
       let mut file = file.unwrap();
@@ -82,7 +83,7 @@ impl Projects {
               }
           }
           None => {
-              println!(
+              error!(
                   "'{}' - Project ID not found!",
                   path.into_os_string()
                       .into_string()
@@ -95,8 +96,6 @@ impl Projects {
   }
 
   pub fn value(&self) -> Arc<Mutex<HashMap<String, Project>>> {
-      println!("fetching project values");
-
       self.rx.try_iter().for_each(|e: DebouncedEvent| match e {
           DebouncedEvent::NoticeWrite(p)  => self.process(p),
           DebouncedEvent::NoticeRemove(p) => self.process(p),
