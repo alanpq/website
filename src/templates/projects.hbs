@@ -11,22 +11,16 @@ Projects
 {{/inline}}
 
 {{#*inline "content"}}
-  <article class="main">
-    {{#each categories.main}}
-      <a href="/projects/{{id}}">
-        {{!-- {{../prefix}} {{firstname}} --}}
-        <section style="background-image:url({{thumbnail}});"></section>
-        <h2>{{title}}</h2>
-      </a>
-    {{/each}}
-  </article>
-  <article class="other">
-    {{#each categories.other}}
-      <a href="/projects/{{id}}">
-        <h2>{{title}}</h2>
-        <p>{{description}}</p>
-      </a>
-    {{/each}}
-  </article>
+  {{#each categories}}
+    <h4>{{@key}}</h4>
+    <article class="{{@key}}">
+      {{#each this}}
+        <a href="/projects/{{id}}">
+          <h2>{{title}}</h2>
+          <p>{{description}}</p>
+        </a>
+      {{/each}}
+    </article>
+  {{/each}}
 {{/inline}}
 {{>partials/_base}}

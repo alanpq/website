@@ -3,29 +3,7 @@ main {
   flex-direction: column;
   flex-wrap: wrap;
   $size: 200px;
-  article.main a {
-    border: none;
-    section {
-      width: $size;
-      height: $size;
-      background-size: cover;
-    }
-
-    h2 {
-      width: $size;
-      padding: 0;
-      margin: 0;
-
-      font-size: 20px;
-      line-height: 1em;
-      text-align: center;
-
-      overflow: hidden;
-      text-overflow: ellipsis; 
-    }
-  }
-
-  article.other {
+  article {
     display: flex;
     flex-direction: column;
     a {
@@ -47,5 +25,32 @@ main {
         color: var(--fg3);
       }
     }
+  }
+}
+
+h4 {
+  opacity: 0.75;
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+
+  &:first-of-type {
+    margin-top: 0;
+  }
+
+  &::after { // horizontal line
+    display: block;
+    content: " ";
+    width: 100%;
+    height: 1px;
+    margin-left: 1em;
+    background: white;
+  }
+}
+
+@media (min-width: 750px) {
+  main article.other a {
+    flex-direction: row;
+    align-items: center;
   }
 }
