@@ -12,9 +12,14 @@ Projects
 
 {{#*inline "content"}}
   {{#each categories}}
-    <h4>{{@key}}</h4>
-    <article class="{{@key}}">
-      {{#each this}}
+    {{#unless this.0.hidden}}
+      <h4>{{this.0.name}}</h4>
+      {{#if this.0.blurb}}
+        <p>{{this.0.blurb}}</p>
+      {{/if}}
+    {{/unless}}
+    <article class="{{this.0.name}}">
+      {{#each this.1}}
         <a href="/projects/{{id}}">
           <h2>{{title}}</h2>
           <p>{{description}}</p>
