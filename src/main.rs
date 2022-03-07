@@ -186,15 +186,15 @@ async fn main() -> std::io::Result<()> {
 		.unwrap();
 	let handlebars_ref = web::Data::new(handlebars);
 
-	let categories = get_categories("./src/projects/categories.yml").unwrap();
+	let categories = get_categories("./projects/categories.yml").unwrap();
 
 	let mut projects = Projects::new();
 	projects
 		.watcher
-		.watch("./src/projects/", RecursiveMode::Recursive)
+		.watch("./projects/", RecursiveMode::Recursive)
 		.unwrap();
 
-	let paths = fs::read_dir("./src/projects/").unwrap();
+	let paths = fs::read_dir("./projects/").unwrap();
 	for path in paths {
 		projects.process(path.unwrap().path());
 	}
