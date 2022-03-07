@@ -175,8 +175,8 @@ main {
       flex-direction: column;
       a {
         display: flex;
-        flex-direction: row;
-        align-items: center;
+        flex-direction: column;
+        align-items: left;
         border: none;
         h2 {
           margin: 0;
@@ -290,7 +290,7 @@ ul.social {
   }
 }
 
-a {
+main a {
   // padding: 1px 2px;
   color: var(--accent1);
   border-bottom: 1px solid currentColor;
@@ -320,6 +320,11 @@ a {
 
   main {
     padding-right: 30px;
+
+    &.projects article.other a {
+      flex-direction: row;
+      align-items: center;
+    }
   }
   
   nav {
