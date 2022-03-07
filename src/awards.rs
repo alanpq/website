@@ -1,5 +1,5 @@
 
-use std::{path::{Path}, fs::File, io::Read};
+use std::{path::{Path, PathBuf}, fs::File, io::Read};
 
 use log::error;
 use serde::Serialize;
@@ -71,9 +71,9 @@ pub type Awards = Vec<Award>;
 pub fn fetch_awards<P: AsRef<Path>>(path: P) -> Option<Awards> {
   match path.as_ref().read_dir() {
     Ok(res) => {
-      return Some(res.into_iter().filter_map(|f| {
-        Some(Award::from_file(f.ok()?.path()).ok()?)
-      }).collect())
+      let mut paths: Vec<PathBuf> = res.into_iter().filter_map(|f| Some(f.ok()?.path())).collect();
+      paths.sort_unstable_by(|a,b| b.cmp(a));
+      return Some(paths.iter().filter_map(|p| Some(Award::from_file(p).ok()?)).collect());
     },
     Err(_) => error!("'{}' not found!", path.as_ref().display()),
   }
