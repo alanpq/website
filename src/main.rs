@@ -1,17 +1,12 @@
-use std::collections::hash_map::DefaultHasher;
-use std::collections::HashMap;
 use std::env;
 use std::fs;
-use std::hash::Hasher;
-use std::path;
 
 use actix_files::Files;
-use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
+use actix_web::{get, web, App, HttpResponse, HttpServer, Responder};
 use log::debug;
 use log::{info, warn};
 
 use handlebars::{Handlebars, RenderError};
-use sass_rs::{compile_file, Options};
 
 use serde::Serialize;
 
