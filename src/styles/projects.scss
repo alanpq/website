@@ -1,0 +1,51 @@
+main {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  $size: 200px;
+  article.main a {
+    border: none;
+    section {
+      width: $size;
+      height: $size;
+      background-size: cover;
+    }
+
+    h2 {
+      width: $size;
+      padding: 0;
+      margin: 0;
+
+      font-size: 20px;
+      line-height: 1em;
+      text-align: center;
+
+      overflow: hidden;
+      text-overflow: ellipsis; 
+    }
+  }
+
+  article.other {
+    display: flex;
+    flex-direction: column;
+    a {
+      display: flex;
+      flex-direction: column;
+      align-items: left;
+      border: none;
+      h2 {
+        margin: 0;
+      }
+      &:hover {
+        box-shadow: -3px 0px 0px 0px var(--accent1);
+        p {
+          color: var(--bg2);
+        }
+      }
+      p {
+        margin: 0 0 0 20px;
+        color: var(--fg3);
+      }
+    }
+  }
+}
