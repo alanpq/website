@@ -3,6 +3,7 @@ use std::fs;
 
 use actix_files::Files;
 use actix_web::{get, web, App, HttpResponse, HttpServer, Responder};
+use awards::Awards;
 use log::debug;
 use log::{info, warn};
 
@@ -10,7 +11,9 @@ use handlebars::{Handlebars, RenderError};
 
 use serde::Serialize;
 
+mod util;
 mod categories;
+mod awards;
 mod scss;
 
 mod project;
@@ -30,6 +33,7 @@ extern crate notify;
 use notify::{RecursiveMode, Watcher};
 use std::sync::{Arc, Mutex};
 
+use crate::awards::fetch_awards;
 use crate::categories::Categories;
 use crate::categories::Category;
 use crate::categories::get_categories;
@@ -71,11 +75,25 @@ struct AppState<'a> {
 	hb: web::Data<Handlebars<'a>>,
 	projects: Arc<Mutex<Projects>>,
 	categories: Arc<Categories>,
+	awards: Arc<Awards>,
 }
 
 #[get("/")] // TODO: actually learn about lifetime specifiers
 async fn index(data: web::Data<AppState<'_>>) -> impl Responder {
 	render_template(String::from("index"), data, None)
+}
+
+#[get("/awards")]
+async fn get_awards(data: web::Data<AppState<'_>>) -> impl Responder {
+	let awards = data.awards.clone();
+
+	render_template(
+		format!("awards"),
+		data,
+		Some(json!({
+			"awards": *awards,
+		})),
+	)
 }
 
 #[get("/projects")]
@@ -188,6 +206,8 @@ async fn main() -> std::io::Result<()> {
 
 	let categories = get_categories("./projects/categories.yml").unwrap();
 
+	let awards = fetch_awards("./awards/").unwrap();
+
 	let mut projects = Projects::new();
 	projects
 		.watcher
@@ -201,6 +221,7 @@ async fn main() -> std::io::Result<()> {
 
 	let projects_ref = Arc::new(Mutex::new(projects));
 	let categories_ref = Arc::new(categories);
+	let awards = Arc::new(awards);
 
 	actix_web::rt::spawn(watch_css("./src/styles"));
 
@@ -211,9 +232,11 @@ async fn main() -> std::io::Result<()> {
 				hb: handlebars_ref.clone(),
 				projects: projects_ref.clone(),
 				categories: categories_ref.clone(),
+				awards: awards.clone(),
 			})
 			.service(Files::new("/static", "./static"))
 			.service(index)
+			.service(get_awards)
 			.service(get_projects)
 			.service(get_project)
 			.service(get_page)

@@ -2,9 +2,11 @@ use log::info;
 use serde::Serialize;
 use std::{
 	fs::File,
-	io::{Error, ErrorKind, Read},
+	io::Read,
 	path::Path,
 };
+
+use crate::util::yaml::yaml_err;
 
 use yaml_rust::{Yaml, YamlLoader, yaml};
 
@@ -44,10 +46,6 @@ impl Category {
 }
 
 pub type Categories = Vec<Category>;
-
-fn yaml_err<S: AsRef<str>, E>(opt: Option<E>, msg: S) -> Result<E, std::io::Error> {
-		opt.ok_or(Error::new(ErrorKind::InvalidData, msg.as_ref()))
-}
 
 pub fn get_categories<P: AsRef<Path>>(path: P) -> Result<Categories, Box<dyn std::error::Error>> {
 	let path = path.as_ref().to_owned();

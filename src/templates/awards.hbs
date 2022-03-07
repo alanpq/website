@@ -9,59 +9,20 @@ Awards
 {{#*inline "content"}}
   <p>Here are some of my notable awards and achievements.</p>
     <br/>
-    <!-- TODO: auto generate this list -->
     <!-- TODO: individual award hyperlinking -->
-
-    <article class="award">
-      <h2>IEEExtreme Programming Competition 15.0</h2>
-      <h3>10/2021</h3>
-      <section>
-        <p>Placed top 700 out of 5561 teams. The competition lasted a full 24 hours, with my 2 teammates and I participating for around 8 hours.  
-      </section>
-    </article>    
-
-    <article class="award">
-      <h2>Irish Collegiate Programming Contest (IrlCPC)</h2>
-      <h3>03/2021</h3>
-      <section>
-        <p>1st place in a group of 3, out of a total of 31 teams. The competition lasted a total of 4 hours, where we solved the problems using Python for convenience.</p>
-      </section>
-      <footer>
-        <a target="_blank" href="http://acm.ucc.ie/irlcpc2020.html">Link to IrlCPC</a>
-        <a target="_blank" href="https://twitter.com/uccacm/status/1373392053258829824">Tweet with scoreboard</a>
-      </footer>
-    </article>
-
-    <article class="award">
-      <h2>BT Young Scientist Exhibition</h2>
-      <h3>01/2016</h3>
-      <section>
-        <p>Created a <a href="/projects/hastyhop">Unity game</a> that won 3rd place in the 'Individual Junior Technology' category, as well as a special award from Broadcom MASTERS International, where I was brought to Phoenix, Arizona as an opportunity to meet other like minded students and observe the Intel International Science and Engineering Fair.</p>
-      </section>
-    </article>
-    
-    <article class="award">
-      <h2>Irish Collegiate Programming Contest (IrlCPC)</h2>
-      <h3>2015 &amp; 2014</h3>
-      <section>
-        <p>Awarded 3rd place both times with my team of 3 in the Junior Category</p>
-      </section>
-    </article>
-    
-    <article class="award">
-      <h2>All Ireland Programming Olympiad (AIPO)</h2>
-      <h3>2014</h3>
-      <section>
-        <p>2rd place in the Junior Category at DCU</p>
-      </section>
-    </article>
-    
-    <article class="award">
-      <h2>CoderDojo Coolest Projects Competition</h2>
-      <h3><!--09/-->2013</h3>
-      <section>
-        <p>Made a <a href="/projects/tree">game</a>, which won 1st place in the 'Games/Web Apps' category. The competition had 60 projects total across all categories that year.</p>
-      </section>
-    </article>
+    {{#each awards}}
+      <article class="award">
+        <h2>{{this.title}}</h2>
+        <h3>{{this.date}}</h3>
+        <section>
+          <p>{{{this.body}}}</p>
+        </section>
+        {{#if this.links }}
+          {{#each this.links}}
+            <a target="_blank" href="{{this.href}}">{{this.name}}</a>
+          {{/each}}
+        {{/if}}
+      </article>
+    {{/each}}
 {{/inline}}
 {{>partials/_base}}
