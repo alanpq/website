@@ -38,6 +38,7 @@ use crate::scss::watch_css;
 
 struct ServerConfig {
 	dev: bool,
+	path_root: String,
 }
 
 lazy_static! {
@@ -46,7 +47,7 @@ lazy_static! {
 			Ok(_val) => true,
 			Err(_e) => false,
 		};
-		ServerConfig { dev: dev }
+		ServerConfig { dev: dev, path_root: env::var("PATH_ROOT").unwrap_or(format!(".")) }
 	};
 }
 
@@ -142,13 +143,13 @@ async fn main() -> std::io::Result<()> {
 	}
 
 	handlebars
-		.register_templates_directory(".hbs", "./src/templates")
+		.register_templates_directory(".hbs", format!("{}/src/templates", CONFIG.path_root) )
 		.unwrap();
 	let handlebars_ref = web::Data::new(handlebars);
 
-	let categories = get_categories("./projects/categories.yml").unwrap();
+	let categories = get_categories(format!("{}/projects/categories.yml", CONFIG.path_root)).unwrap();
 
-	let awards = fetch_awards("./awards/").unwrap();
+	let awards = fetch_awards(format!("{}/awards/", CONFIG.path_root)).unwrap();
 
 	let mut projects = Projects::new();
 	projects
@@ -156,7 +157,7 @@ async fn main() -> std::io::Result<()> {
 		.watch("./projects/", RecursiveMode::Recursive)
 		.unwrap();
 
-	let paths = fs::read_dir("./projects/").unwrap();
+	let paths = fs::read_dir(format!("{}/projects/", CONFIG.path_root)).unwrap();
 	for path in paths {
 		projects.process(path.unwrap().path());
 	}
@@ -165,7 +166,7 @@ async fn main() -> std::io::Result<()> {
 	let categories_ref = Arc::new(categories);
 	let awards = Arc::new(awards);
 
-	actix_web::rt::spawn(watch_css("./src/styles"));
+	actix_web::rt::spawn(watch_css(format!("{}/src/styles", CONFIG.path_root)));
 
 	info!("Webserver running!");
 	HttpServer::new(move || {
@@ -176,7 +177,7 @@ async fn main() -> std::io::Result<()> {
 				categories: categories_ref.clone(),
 				awards: awards.clone(),
 			})
-			.service(Files::new("/static", "./static"))
+			.service(Files::new("/static", format!("{}/static", CONFIG.path_root)))
 			.service(index)
 			.service(get_awards)
 			.service(get_projects)
