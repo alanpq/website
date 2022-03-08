@@ -3,23 +3,19 @@ use std::fs;
 
 use actix_files::Files;
 use actix_web::{get, web, App, HttpResponse, HttpServer, Responder};
-use awards::Awards;
 use log::debug;
 use log::{info, warn};
 
 use handlebars::{Handlebars, RenderError};
 
+use models::awards::Awards;
+use models::categories::Categories;
+use models::projects::Projects;
 use serde::Serialize;
 
 mod util;
-mod categories;
-mod awards;
 mod scss;
-
-mod project;
-mod projects;
-use project::Project;
-use projects::Projects;
+mod models;
 
 #[macro_use]
 extern crate serde_json;
@@ -33,11 +29,12 @@ extern crate notify;
 use notify::{RecursiveMode, Watcher};
 use std::sync::{Arc, Mutex};
 
-use crate::awards::fetch_awards;
-use crate::categories::Categories;
-use crate::categories::Category;
-use crate::categories::get_categories;
+use crate::models::awards::fetch_awards;
+use crate::models::categories::Category;
+use crate::models::categories::get_categories;
+use crate::models::project::Project;
 use crate::scss::watch_css;
+
 // thanks rust-lang git repo for the sass compile stuff
 
 #[derive(Clone, Serialize)]

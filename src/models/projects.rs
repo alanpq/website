@@ -9,8 +9,7 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::collections::HashMap;
 
-use crate::project::Project;
-use crate::project::ProjectFlags;
+use super::project::{ProjectFlags, Project};
 
 macro_rules! getValue {
   ($doc:ident, $key:literal, $as:tt, $default:literal) => {
