@@ -9,7 +9,7 @@ use std::{
 
 use log::{error, info};
 use notify::{watcher, RecursiveMode, Watcher};
-use sass_rs::{compile_file, Options};
+use rsass::{compile_scss_path, output::{Format, Style}};
 
 pub async fn watch_css<P: AsRef<Path>>(path: P) {
 	let path = path.as_ref().to_owned();
@@ -56,13 +56,16 @@ fn compile_sass(path: &Path) -> Option<String> {
 		panic!("file not found: {}", path.display());
 	}
 
-	let css = compile_file(path, Options::default())
+	let css = compile_scss_path(path, Format {
+		style: Style::Compressed,
+		precision: 5,
+	})
 		.unwrap_or_else(|_| panic!("couldn't compile sass: {}", path.display()));
 
 	// let css_sha = format!("{}_{}", filename, hash_css(&css));
 	let css_file = format!("./static/styles/{}.css", file_name.strip_suffix(".scss")?);
 
-	fs::write(&css_file, css.into_bytes())
+	fs::write(&css_file, css)
 		.unwrap_or_else(|_| panic!("couldn't write css file: {}", &css_file));
 
 	Some(String::from(&css_file[1..]))
