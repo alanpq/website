@@ -2,20 +2,20 @@ use std::env;
 use std::fs;
 
 use actix_files::Files;
-use actix_web::{get, web, App, HttpResponse, HttpServer, Responder};
+use actix_web::{get, web, App, HttpServer, Responder};
 use log::debug;
 use log::{info, warn};
 
-use handlebars::{Handlebars, RenderError};
+use handlebars::{Handlebars};
 
 use models::awards::Awards;
 use models::categories::Categories;
 use models::projects::Projects;
-use serde::Serialize;
 
 mod util;
 mod scss;
 mod models;
+mod render;
 
 #[macro_use]
 extern crate serde_json;
@@ -33,26 +33,8 @@ use crate::models::awards::fetch_awards;
 use crate::models::categories::Category;
 use crate::models::categories::get_categories;
 use crate::models::project::Project;
+use crate::render::render_template;
 use crate::scss::watch_css;
-
-// thanks rust-lang git repo for the sass compile stuff
-
-#[derive(Clone, Serialize)]
-struct CSSFiles {
-	app: String,
-	fonts: String,
-	// pages: HashMap<String, String>
-	//vendor: String,
-}
-#[derive(Clone, Serialize)]
-struct JSFiles {
-	app: String,
-}
-#[derive(Clone, Serialize)]
-struct AssetFiles {
-	css: CSSFiles,
-	//js: JSFiles,
-}
 
 struct ServerConfig {
 	dev: bool,
@@ -68,7 +50,7 @@ lazy_static! {
 	};
 }
 
-struct AppState<'a> {
+pub struct AppState<'a> {
 	hb: web::Data<Handlebars<'a>>,
 	projects: Arc<Mutex<Projects>>,
 	categories: Arc<Categories>,
@@ -110,8 +92,6 @@ async fn get_projects(data: web::Data<AppState<'_>>) -> impl Responder {
 		})
 		.collect();
 
-	debug!("{:?}", order);
-
 	render_template(
 		String::from("projects"),
 		data,
@@ -130,7 +110,6 @@ async fn get_project(
 ) -> impl Responder {
 	let proj = &data.projects.lock().unwrap().value();
 	let map = proj.lock().unwrap();
-	debug!("project {}", id);
 	render_template(
 		String::from("project"),
 		data,
@@ -147,40 +126,6 @@ async fn get_page(
 ) -> impl Responder {
 	debug!("page {}", page);
 	render_template(page, data, None)
-}
-
-fn render_fail_wrapper(
-	res: Result<String, RenderError>,
-) -> actix_web::web::HttpResponse<actix_web::dev::Body> {
-	match res {
-		Ok(content) => HttpResponse::Ok().body(content),
-		Err(_) => HttpResponse::Ok().body("<h1>404</h1>"),
-	}
-}
-
-fn render_template(
-	page: String,
-	data: web::Data<AppState<'_>>,
-	json: Option<serde_json::Value>,
-) -> actix_web::web::HttpResponse<actix_web::dev::Body> {
-	info!("Template request for '{}'", page);
-	let mut dm = json!({
-		"page": page,
-	});
-
-	let d = dm.as_object_mut().unwrap();
-
-	match json {
-		Some(j) => {
-			j.as_object().unwrap().iter().for_each(|(k, v)| {
-				d.insert(k.to_string(), v.clone());
-			});
-		}
-		None => {}
-	}
-
-	let d = json!(d);
-	render_fail_wrapper((&data.hb).render(page.as_str(), &d))
 }
 
 #[actix_web::main]
