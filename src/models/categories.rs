@@ -1,4 +1,4 @@
-use log::info;
+use log::{info, debug};
 use serde::Serialize;
 use std::{
 	fs::File,
@@ -49,7 +49,7 @@ pub type Categories = Vec<Category>;
 
 pub fn get_categories<P: AsRef<Path>>(path: P) -> Result<Categories, Box<dyn std::error::Error>> {
 	let path = path.as_ref().to_owned();
-
+	debug!("loading categories from file '{}'", path.display());
 	let mut file = File::open(path)?;
 	let mut s = String::new();
 	file.read_to_string(&mut s)?;
