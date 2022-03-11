@@ -10,13 +10,6 @@ steps:
     path: /var/run/docker.sock
   commands:
   - docker-compose build
-- name: run
-  image: docker/compose:1.28.0
-  volumes:
-  - name: docker_sock
-    path: /var/run/docker.sock
-  commands:
-  - docker-compose up -d
 volumes:
   - name: docker_sock
     host:
