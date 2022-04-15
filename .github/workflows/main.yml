@@ -1,0 +1,59 @@
+name: CI
+
+concurrency:
+  group: ci
+  cancel-in-progress: true
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Ensure latest version of git.
+      - name: Ensure latests version of git
+        run: |
+          sudo apt-get install -y software-properties-common \
+          && sudo apt-get update \
+          && sudo add-apt-repository -y ppa:git-core/ppa \
+          && sudo apt-get update \
+          && sudo apt-get install -y git
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      # Builds docker images and pushes them to GHCR
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1 
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.GHCR_USER }}
+          password: ${{ secrets.GHCR_TOKEN }}
+
+      - name: Build and push prod image
+        uses: docker/build-push-action@v2.7.0
+        with:
+          push: true
+          context: .
+          tags: ghcr.io/oofsauce/website:latest, ghcr.io/oofsauce/website:${{ github.sha }}
+  deploy:
+    needs: [build]
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Deploy via ansible.
+        uses: oofsauce/ansible-action@main
+        with:
+          tags: "website"
+          host: ${{ secrets.HOST }}
+          user: ${{ secrets.USER }}
+          ssh_key: ${{ secrets.SSH_KEY }}
+          directory: ${{ secrets.DIRECTORY }}
+          vault_pass: ${{ secrets.VAULT_PASS }}
+    
