@@ -51,6 +51,7 @@ jobs:
         uses: oofsauce/ansible-action@main
         with:
           tags: "website"
+          playbook: alanp.yml
           host: ${{ secrets.HOST }}
           user: ${{ secrets.USER }}
           ssh_key: ${{ secrets.SSH_KEY }}
