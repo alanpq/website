@@ -50,7 +50,7 @@ jobs:
       - name: Deploy via ansible.
         uses: oofsauce/ansible-action@main
         with:
-          tags: "website"
+          tags: "web"
           playbook: alanp.yml
           host: ${{ secrets.HOST }}
           user: ${{ secrets.USER }}
