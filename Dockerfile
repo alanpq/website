@@ -1,4 +1,4 @@
-FROM rust:1.48
+FROM rust:slim-buster
 
 WORKDIR /website
 RUN chmod -R +rwx .

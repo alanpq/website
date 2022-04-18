@@ -1,4 +1,5 @@
 id: ascii-trace
+category: main
 title: ascii-trace
 github: https://github.com/oofsauce/ascii-trace
 description: "ASCII ray tracer written in Rust."

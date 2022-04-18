@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Bitter:ital@0;1&display=swap'); // TODO: remove me
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap');
+@import 'https://fonts.googleapis.com/css2?family=Bitter:ital@0;1&display=swap'; // TODO: remove me
+@import 'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap';
 
 :root {
   --bg1: rgb(28, 28, 29);
@@ -30,7 +30,7 @@ html, body {
   font-family: 'Poppins', sans-serif;
   height: 100%;
   width: 100vw;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 p {
@@ -78,6 +78,7 @@ nav {
   grid-area: nav;
 
   a {
+    color: white;
     box-sizing: border-box;
 
     flex-grow: 1;
@@ -143,124 +144,6 @@ main {
   // }
 
   padding: 0 0 100px 0;
-
-  &.projects {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    $size: 200px;
-    article.main a {
-      border: none;
-      section {
-        width: $size;
-        height: $size;
-        background-size: cover;
-      }
-
-      h2 {
-        width: $size;
-        padding: 0;
-        margin: 0;
-
-        font-size: 20px;
-        line-height: 1em;
-        text-align: center;
-
-        overflow: hidden;
-        text-overflow: ellipsis; 
-      }
-    }
-
-    article.other {
-      display: flex;
-      flex-direction: column;
-      a {
-        display: flex;
-        flex-direction: column;
-        align-items: left;
-        border: none;
-        h2 {
-          margin: 0;
-        }
-        &:hover {
-          box-shadow: -3px 0px 0px 0px var(--accent1);
-          p {
-            color: var(--bg2);
-          }
-        }
-        p {
-          margin: 0 0 0 20px;
-          color: var(--fg3);
-        }
-      }
-    }
-  }
-
-  &.project {
-
-    h1 {
-      grid-area: title;
-      font-size: 2rem;
-      margin: 0;
-      padding: 0;
-    }
-
-    img {
-      // max-width: ;
-      width: 100%;
-      height: auto;
-    }
-
-    .subtitle {
-      display: block;
-      margin-bottom: 1em;
-    }
-
-    // a {
-    //   img {
-    //     width: 200px;
-    //   }
-    //   background: none !important;
-    //   border: none !important;
-    //   float:right;
-    //   padding: 0 0 10px 20px;
-    // }
-
-    section {
-      &.description {
-        grid-column: 1 / 3;
-        grid-row: 2/4;
-      }
-      &.links {
-        grid-area: links;
-      }
-    }
-  }
-}
-
-
-button.back {
-  // grid-column: 0/1;
-  // grid-row: 0/1;
-  grid-area: back;
-  justify-self: end;
-  align-self: center;
-
-  margin: 0 20px 0 0;
-  padding: 0;
-
-  width: 36px;
-  height: 36px;
-
-  cursor: pointer;
-
-  background: none;
-  border: none;
-  outline: none;
-
-  img {
-    color: white;
-  }
 }
 
 ul.social {
@@ -321,11 +204,6 @@ main a {
 
   main {
     padding-right: 30px;
-
-    &.projects article.other a {
-      flex-direction: row;
-      align-items: center;
-    }
   }
   
   nav {

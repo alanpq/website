@@ -7,9 +7,11 @@ services:
       - "8081:9090"
     environment:
       - "DEV=true"
+      - "PATH_ROOT=/website"
+      - "RUST_LOG=debug"
       - "RUST_BACKTRACE=full"
-    volumes:
-      - .:/website
+    # volumes:
+    #   - .:/website
       # - type: bind
       #   source: ./.cargo/
       #   target: /root/.cargo/

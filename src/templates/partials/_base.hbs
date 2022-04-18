@@ -4,19 +4,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alan Panayotov</title>
-  <link rel="stylesheet" href="{{app_css}}">
+  <title>Alan Panayotov | {{>title}}</title>
+  <link rel="stylesheet" href="/static/styles/app.css">
+  {{>head}}
   <script defer data-domain="alanp.me" src="https://analytics.alanp.me/js/plausible.js"></script>
 </head>
 
 <body>
   <header>
-    <h1>Alan Panayotov</h1>
+    <h1>{{>heading}}</h1>
   </header>
   {{>partials/nav}}
+  {{>post_nav}}
   <main>
-    <p>Hi, I'm Alan, and I'm a student at UCC interested in fullstack web and game development.</p>
-    {{>partials/socials}}
+    {{>content}}
   </main>
   {{>partials/footer}}
 </body>
