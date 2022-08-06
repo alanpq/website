@@ -1,7 +1,7 @@
 id: website
 category: main
 title: website
-github: https://github.com/oofsauce/website
+github: https://github.com/alanpq/website
 url: https://alanp.me/
 description: "my website :)"
 body: "<p>Written in Rust, with SCSS compiling, handlebars templating and github project scraping.</p>"

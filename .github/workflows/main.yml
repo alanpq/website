@@ -41,14 +41,14 @@ jobs:
         with:
           push: true
           context: .
-          tags: ghcr.io/oofsauce/website:latest, ghcr.io/oofsauce/website:${{ github.sha }}
+          tags: ghcr.io/alanpq/website:latest, ghcr.io/alanpq/website:${{ github.sha }}
   deploy:
     needs: [build]
     runs-on: ubuntu-latest
     
     steps:
       - name: Deploy via ansible.
-        uses: oofsauce/ansible-action@main
+        uses: alanpq/ansible-action@main
         with:
           tags: "web"
           playbook: alanp.yml

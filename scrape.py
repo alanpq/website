@@ -4,7 +4,7 @@
 
 # curl \
 #   -H "Accept: application/vnd.github.v3+json" \
-#   https://api.github.com/users/oofsauce/repos
+#   https://api.github.com/users/alanpq/repos
 #!/usr/bin/env python3
 import sys
 import requests
