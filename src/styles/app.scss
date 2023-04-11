@@ -1,6 +1,3 @@
-@import 'https://fonts.googleapis.com/css2?family=Bitter:ital@0;1&display=swap'; // TODO: remove me
-@import 'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap';
-
 :root {
   --bg1: rgb(28, 28, 29);
   --bg2: rgb(44, 44, 46);
@@ -27,10 +24,14 @@ html, body {
   margin: 0;
   background: var(--bg1);
   color: var(--fg1);
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Anaheim', sans-serif;
   height: 100%;
   width: 100vw;
   overflow-x: clip;
+}
+
+h1,h2,h3,h4,h5,h6 {
+  font-weight: 900;
 }
 
 p {
@@ -60,7 +61,7 @@ body {
     "main main"
     "footer footer";
 
-  justify-content: center;
+  justify-content: stretch;
   align-content: flex-start;
   padding: 0 10%;
 }
@@ -77,8 +78,11 @@ nav {
 
   grid-area: nav;
 
+  text-transform: uppercase;
+  font-weight: 900;
+
   a {
-    color: white;
+    color: rgba(255, 255, 255, 0.582);
     box-sizing: border-box;
 
     flex-grow: 1;
@@ -91,6 +95,7 @@ nav {
     border: none;
 
     &.active {
+      color: white;
       padding: 8px 9px 8px 10px;
       border-bottom: 1px solid white;
     }
@@ -100,7 +105,7 @@ nav {
     }
 
     &:visited {
-      color: var(--fg1);
+      color: inherit;
     }
 
     &:active {
@@ -199,6 +204,9 @@ main a {
       "nav main"
       "footer footer";
 
+
+    justify-content: center;
+
     padding: 100px 0 0 0;
   }
 
@@ -218,7 +226,7 @@ main a {
       width: 150px;
       border-right: 1px solid var(--bg2);
 
-      color: var(--fg1);
+      color: rgba(255, 255, 255, 0.582);
   
       text-align: right !important;
       &.active {
