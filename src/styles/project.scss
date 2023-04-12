@@ -18,7 +18,11 @@ main {
       font-size: 2rem;
       margin: 0;
       padding: 0;
+      a {
+        border-bottom: none;
+      }
     }
+
 
     .year {
       margin: 0;
