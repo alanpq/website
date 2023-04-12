@@ -21,8 +21,11 @@ Projects
     {{#if thumbnail}}
       <a href="{{url}}"><img src="{{thumbnail}}" /></a>
     {{/if}}
-    <h1>{{title}}</h1>
-    <i class="subtitle">{{description}}</i>
+    <hgroup>
+      <h1>{{title}}</h1>
+      <p class="year">{{year}}</p>
+      <p>{{description}}</p>
+    </hgroup>
     <section class="description">
       {{{body}}}
     </section>
