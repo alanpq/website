@@ -1,0 +1,7 @@
+id: steam-notifications
+category: main
+title: steam-notifications
+year: "2019"
+github: https://github.com/alanpq/steam-notifications
+description: "Steam notification interceptor"
+body: "<p>Written in a scary mix of Python and Javascript, steam-notifications provides a replacement for Steam's (not great) notifications by interfacing with dunst.</p><p>It communicates with Steam as a standard client using DoctorMcKay's <a href=\"https://github.com/DoctorMcKay/node-steam-user\">SteamUser</a>, which allows it to handle and create chat notifications.</p>"
