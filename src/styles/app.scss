@@ -199,7 +199,7 @@ main a {
 
 @media (min-width: 750px) {
   body {
-    grid-template-columns: minmax(100px, 200px) minmax(500px, 600px);
+    grid-template-columns: calc(8em - 6vw) 600px;
     grid-template-areas:
       "back header"
       "nav main"
@@ -213,19 +213,19 @@ main a {
 
   main {
     padding-top: 0;
-    padding-right: 30px;
+    // padding-right: 30px;
   }
   
   nav {
     // grid-column: 1 / 2;
     // grid-row: 2 / 3;
     justify-self: end;
+    align-items: stretch;
     flex-direction: column;
 
-    margin-right: 20px;
+    padding-right: 20px;
     a {
       box-sizing: content-box;
-      width: 150px;
       border-right: 1px solid var(--bg2);
 
       color: rgba(255, 255, 255, 0.582);
