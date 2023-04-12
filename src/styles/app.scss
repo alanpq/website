@@ -25,6 +25,7 @@ html, body {
   background: var(--bg1);
   color: var(--fg1);
   font-family: 'Anaheim', sans-serif;
+  font-size: 19px;
   height: 100%;
   width: 100vw;
   overflow-x: clip;
@@ -148,7 +149,7 @@ main {
   //   display: inline;
   // }
 
-  padding: 0 0 100px 0;
+  padding: 1em 0 100px 0;
 }
 
 ul.social {
@@ -211,6 +212,7 @@ main a {
   }
 
   main {
+    padding-top: 0;
     padding-right: 30px;
   }
   

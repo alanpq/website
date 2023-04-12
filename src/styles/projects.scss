@@ -3,6 +3,7 @@ main {
   flex-direction: column;
   flex-wrap: wrap;
   $size: 200px;
+
   article {
     display: flex;
     flex-direction: column;
@@ -50,12 +51,18 @@ h4 {
 
 h4 + p {
   opacity: 0.5;
-  margin-bottom: 0.2em;
+}
+
+p {
+  margin-block-start: 0em;
+  margin-block-end: 0.2em;
 }
 
 @media (min-width: 750px) {
-  main article.other a {
-    flex-direction: row;
-    align-items: center;
+  main {
+    article.other a {
+      flex-direction: row;
+      align-items: center;
+    }
   }
 }
