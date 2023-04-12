@@ -8,8 +8,9 @@ main {
     display: flex;
     flex-direction: column;
     a {
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-rows: 1fr min-content;
+      grid-template-columns: 2fr 1fr;
       align-items: left;
       border: none;
       h2 {
@@ -20,6 +21,13 @@ main {
         p {
           color: var(--bg2);
         }
+      }
+      h2 + p {
+        align-self: center;
+        justify-self: right;
+        margin-right: 20px;
+        grid-column: 2/3;
+        grid-row: 1/3;
       }
       p {
         margin: 0 0 0 20px;

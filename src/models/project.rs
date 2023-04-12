@@ -34,6 +34,7 @@ pub struct Project {
 	pub category: String, // current categories are: main, other
 
 	pub title: String,       // project title
+	pub year: String,				 // project year/year range (2013, 2020 - 2023, 2020 - now, etc)
 	pub description: String, // short text-only description
 	pub body: String,        // full project description (contains HTML)
 

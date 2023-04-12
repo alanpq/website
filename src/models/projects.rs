@@ -68,13 +68,14 @@ impl Projects {
 				category: category.clone(),
 				thumbnail: String::from(getValue!(doc, "thumbnail", as_str, "")),
 				title: String::from(getValue!(doc, "title", as_str, "default")),
+				year: String::from(getValue!(doc, "year", as_str, "")),
 				body: String::from(getValue!(doc, "body", as_str, "default")),
 				description: String::from(getValue!(doc, "description", as_str, "default")),
 				url: String::from(getValue!(doc, "url", as_str, "")),
 				github: String::from(getValue!(doc, "github", as_str, "")),
 				stars: getValue!(doc, "stars", as_i64, 0),
 				forks: getValue!(doc, "forks", as_i64, 0),
-				flags: ProjectFlags::from(doc)
+				flags: ProjectFlags::from(doc),
 			};
 			
 			match projects.insert(id.to_string(),project) {
