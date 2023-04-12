@@ -1,6 +1,6 @@
 id: pitch-test
 category: main
-title: Interval Quiz
+title: interval-quiz
 year: "2021"
 description: "Small project to learn the Web Audio API"
 body: "<p>Served via a barebones express server, and all static files compiled with <a href='https://gulpjs.com/'>Gulp</a></p>"
