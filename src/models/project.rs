@@ -14,13 +14,13 @@ impl ProjectFlags {
 			Some(flags) => {
 				debug!("{:?}", flags);
 				let rt = flags.get(&Yaml::from_str("readme_thumbnail")).unwrap();
-				return ProjectFlags {
+				ProjectFlags {
 					readme_thumbnail: rt.as_bool().unwrap_or(false),
 					// readme_thumbnail: false,
-				};
+				}
 			}
 			None => {
-				return ProjectFlags {
+				ProjectFlags {
 					readme_thumbnail: false,
 				}
 			}

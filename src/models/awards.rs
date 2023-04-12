@@ -16,8 +16,8 @@ pub struct Link {
 impl Link {
   pub fn from_yaml(yml: &yaml::Hash) -> Option<Link>{
     Some(Link {
-      href: yml[&Yaml::String(format!("href"))].as_str()?.to_string(),
-      name: yml[&Yaml::String(format!("name"))].as_str()?.to_string(),
+      href: yml[&Yaml::String("href".to_string())].as_str()?.to_string(),
+      name: yml[&Yaml::String("name".to_string())].as_str()?.to_string(),
     })
   }
 }
@@ -45,15 +45,15 @@ impl Award {
     let title = yaml_err(yml["title"].as_str(), "award needs title!")?;
     let body = yaml_err(yml["body"].as_str(), "award needs body!")?;
 
-    let date = match yml["date"].as_str() {
-      Some(str) => Some(str.to_string()),
-      None => None
-    };
+    let date = yml["date"].as_str().map(|str| str.to_string());
 
-    let links: Option<Vec<Link>> = match yml["links"].as_vec() {
-      Some(vec) => Some(vec.iter().filter_map(|link| Link::from_yaml(link.as_hash()?)).collect()),
-      _ => None
-    };
+    let links: Option<Vec<Link>> = yml["links"].as_vec()
+      .map(|vec| 
+        vec.iter()
+          .filter_map(|link|
+            Link::from_yaml(link.as_hash()?)
+          ).collect()
+      );
 
 
     Ok(Award {
@@ -73,7 +73,7 @@ pub fn fetch_awards<P: AsRef<Path>>(path: P) -> Option<Awards> {
     Ok(res) => {
       let mut paths: Vec<PathBuf> = res.into_iter().filter_map(|f| Some(f.ok()?.path())).collect();
       paths.sort_unstable_by(|a,b| b.cmp(a));
-      return Some(paths.iter().filter_map(|p| Some(Award::from_file(p).ok()?)).collect());
+      return Some(paths.iter().filter_map(|p| Award::from_file(p).ok()).collect());
     },
     Err(_) => error!("'{}' not found!", path.as_ref().display()),
   }

@@ -25,15 +25,12 @@ pub fn render_template(
 
 	let d = dm.as_object_mut().unwrap();
 
-	match json {
-		Some(j) => {
-			j.as_object().unwrap().iter().for_each(|(k, v)| {
-				d.insert(k.to_string(), v.clone());
-			});
-		}
-		None => {}
+	if let Some(j) = json {
+		j.as_object().unwrap().iter().for_each(|(k, v)| {
+			d.insert(k.to_string(), v.clone());
+		});
 	}
 
 	let d = json!(d);
-	render_fail_wrapper((&data.hb).render(page.as_str(), &d))
+	render_fail_wrapper(data.hb.render(page.as_str(), &d))
 }

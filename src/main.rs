@@ -47,7 +47,7 @@ lazy_static! {
 			Ok(_val) => true,
 			Err(_e) => false,
 		};
-		ServerConfig { dev: dev, path_root: env::var("PATH_ROOT").unwrap_or(format!(".")) }
+		ServerConfig { dev, path_root: env::var("PATH_ROOT").unwrap_or(".".to_string()) }
 	};
 }
 
@@ -68,7 +68,7 @@ async fn get_awards(data: web::Data<AppState<'_>>) -> impl Responder {
 	let awards = data.awards.clone();
 
 	render_template(
-		format!("awards"),
+		"awards".to_string(),
 		data,
 		Some(json!({
 			"awards": *awards,
@@ -89,7 +89,7 @@ async fn get_projects(data: web::Data<AppState<'_>>) -> impl Responder {
 		.iter()
 		.filter_map(|k| {
 			let projects: Vec<Project> = categories.get(&k.name)?.iter().map(|id| all.get(id).unwrap().clone()).collect();
-			return Some((k.clone(), projects));
+			Some((k.clone(), projects))
 		})
 		.collect();
 

@@ -28,17 +28,17 @@ impl Projects {
   pub fn new() -> Projects {
 	  let (tx, rx) = channel();
 	  let watcher = watcher(tx, Duration::from_secs(2)).unwrap();
-	  return Projects {
-		  rx: rx,
-		  watcher: watcher,
+	  Projects {
+		  rx,
+		  watcher,
 		  value: Arc::new(Mutex::new(HashMap::new())),
 		  by_category: Arc::new(Mutex::new(HashMap::new())),
-	  };
+	  }
   }
 
   pub fn process(&self, path: std::path::PathBuf) {
 	if let Some(path) = path.file_name() {  
-		if path.to_str().unwrap().contains(&"categories.yml") {
+		if path.to_str().unwrap().contains("categories.yml") {
 			return;
 		}
 	}
@@ -114,10 +114,10 @@ impl Projects {
 		  DebouncedEvent::Rename(_, p)    => self.process(p),
 		  _ => {}
 	  });
-	  return self.value.clone();
+	  self.value.clone()
   }
 
   pub fn categories(&self) -> Arc<Mutex<HashMap<String, Vec<String>>>> {
-	  return self.by_category.clone();
+	  self.by_category.clone()
   }
 }

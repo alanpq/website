@@ -1,7 +1,5 @@
 use std::{
-	collections::hash_map::DefaultHasher,
 	fs,
-	hash::Hasher,
 	path::Path,
 	sync::mpsc::channel,
 	time::Duration,
@@ -28,22 +26,21 @@ pub async fn watch_css<P: AsRef<Path>>(path: P) {
 
 	loop {
 		match rx.recv() {
-			Ok(event) => match event {
-				notify::DebouncedEvent::Write(path) => {
+			Ok(event) => {
+				if let notify::DebouncedEvent::Write(path) = event {
 					compile_sass(path.as_path());
 				}
-				_ => {}
 			},
 			Err(e) => error!("watch error: {:?}", e),
 		}
 	}
 }
 
-fn hash_css(css: &str) -> String {
-	let mut hasher = DefaultHasher::new();
-	hasher.write(css.as_bytes());
-	hasher.finish().to_string()
-}
+// fn hash_css(css: &str) -> String {
+// 	let mut hasher = DefaultHasher::new();
+// 	hasher.write(css.as_bytes());
+// 	hasher.finish().to_string()
+// }
 
 // TODO: remove all these panics/unwraps
 fn compile_sass(path: &Path) -> Option<String> {

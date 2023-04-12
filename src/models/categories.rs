@@ -27,20 +27,20 @@ impl Category {
 		}
 	}
 	pub fn from_yaml(hash: &yaml::Hash) -> Option<Category> {
-		let blurb = match hash.get(&Yaml::String(format!("blurb"))) {
+		let blurb = match hash.get(&Yaml::String("blurb".to_string())) {
 			Some(b) => Some(b.as_str()?.to_string()),
 			None => None
 		};
 
-		let hidden = match hash.get(&Yaml::String(format!("hidden"))) {
+		let hidden = match hash.get(&Yaml::String("hidden".to_string())) {
 			Some(b) => b.as_bool()?,
 			None => false
 		};
 
 		Some(Category{
-			name: hash.get(&Yaml::String(format!("name")))?.as_str()?.to_string(),
-			blurb: blurb,
-			hidden: hidden,
+			name: hash.get(&Yaml::String("name".to_string()))?.as_str()?.to_string(),
+			blurb,
+			hidden,
 		})
 	}
 }
@@ -69,7 +69,7 @@ pub fn get_categories<P: AsRef<Path>>(path: P) -> Result<Categories, Box<dyn std
 	Ok(categories
 		.iter()
 		.filter_map(|e| {
-			return match e {
+			match e {
 				Yaml::Hash(e) => Category::from_yaml(e),
 				Yaml::String(str) => Some(Category::from(str)),
 				_ => None
