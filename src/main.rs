@@ -157,9 +157,16 @@ async fn main() -> std::io::Result<()> {
 		.watch("./projects/", RecursiveMode::Recursive)
 		.unwrap();
 
-	let paths = fs::read_dir(format!("{}/projects/", CONFIG.path_root)).unwrap();
+	let mut paths: Vec<std::path::PathBuf> = fs::read_dir(format!("{}/projects/", CONFIG.path_root)).unwrap().filter_map(|p| p.ok()).map(|p| p.path()).collect();
+	paths.sort_by_cached_key(|path| path.file_name()
+		.and_then(|s| s.to_str())
+		.and_then(|s| s.split('_').next())
+		.and_then(|s| s.parse::<u32>().ok())
+		.unwrap_or(50)
+	);
 	for path in paths {
-		projects.process(path.unwrap().path());
+		debug!("found project {}", &path.display());
+		projects.process(path);
 	}
 
 	let projects_ref = Arc::new(Mutex::new(projects));

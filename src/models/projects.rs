@@ -1,4 +1,4 @@
-use log::error;
+use log::{error, debug};
 use notify::{watcher, DebouncedEvent, RecommendedWatcher};
 use yaml_rust::YamlLoader;
 use std::sync::mpsc::{channel, Receiver};
@@ -103,18 +103,21 @@ impl Projects {
   }
 
   pub fn value(&self) -> Arc<Mutex<HashMap<String, Project>>> {
-	  self.rx.try_iter().for_each(|e: DebouncedEvent| match e {
-		  DebouncedEvent::NoticeWrite(p)  => self.process(p),
-		  DebouncedEvent::NoticeRemove(p) => self.process(p),
-		  DebouncedEvent::Create(p)       => self.process(p),
-		  DebouncedEvent::Write(p)        => self.process(p),
-		  DebouncedEvent::Chmod(p)        => self.process(p),
-		  DebouncedEvent::Remove(p)       => {
-			  self.value.lock().unwrap().remove(&String::from(p.file_name().unwrap().to_str().unwrap()));
-		  },
-		  DebouncedEvent::Rename(_, p)    => self.process(p),
-		  _ => {}
-	  });
+	  self.rx.try_iter().for_each(|e: DebouncedEvent| {
+			debug!("fs watch triggered!");
+			match e {
+				DebouncedEvent::NoticeWrite(p)  => self.process(p),
+				DebouncedEvent::NoticeRemove(p) => self.process(p),
+				DebouncedEvent::Create(p)       => self.process(p),
+				DebouncedEvent::Write(p)        => self.process(p),
+				DebouncedEvent::Chmod(p)        => self.process(p),
+				DebouncedEvent::Remove(p)       => {
+					self.value.lock().unwrap().remove(&String::from(p.file_name().unwrap().to_str().unwrap()));
+				},
+				DebouncedEvent::Rename(_, p)    => self.process(p),
+				_ => {}
+			}
+		});
 	  self.value.clone()
   }
 
