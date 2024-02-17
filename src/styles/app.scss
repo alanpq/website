@@ -29,13 +29,14 @@ html, body {
   height: 100%;
   width: 100vw;
   overflow-x: clip;
+  line-height: 1.3;
 }
 
 h1,h2,h3,h4,h5,h6 {
   font-weight: 900;
 }
 
-p {
+p, ul {
   // font-family: 'Bitter', serif;
   // text-align: justify;
   a {
@@ -45,6 +46,21 @@ p {
     &:hover, &:active {
       text-decoration: none;
     }
+  }
+}
+
+ul:not(.social) {
+  line-height: 1.2;
+  ul {
+    margin-top: 0.2em;
+  }
+  li{
+    &::marker {
+      color: var(--accent1);
+      content: "— ";
+      font-size: 1rem;
+    }
+    margin-bottom: 0.4em;
   }
 }
 

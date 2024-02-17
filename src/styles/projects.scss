@@ -11,8 +11,11 @@ main {
       display: grid;
       grid-template-rows: 1fr min-content;
       grid-template-columns: 2fr 1fr;
-      align-items: left;
       border: none;
+
+      line-height: 1.15;
+      padding: 0.1em 0 0.15em 0;
+
       h2 {
         margin: 0;
       }
