@@ -5,4 +5,6 @@ year: 2020 - now
 github: https://github.com/alanpq/website
 url: https://alanp.me/
 description: "my website :)"
-body: "<p>Written in Rust, with SCSS compiling, handlebars templating and github project scraping.</p>"
+body: >
+  <p>Written in Rust, with SCSS compiling & handlebars templating.</p>
+  <p>CI/CD via <a href="https://github.com/alanpq/website/blob/main/.github/workflows/main.yml" target="_blank">Github Actions</a>, which runs an Ansible playbook.</p>
