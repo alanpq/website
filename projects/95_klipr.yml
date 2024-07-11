@@ -1,13 +1,15 @@
 id: klipr
 category: main
 title: klipr
-year: "2022 - 2023"
+year: "2022 - now"
 github: https://github.com/alanpq/klipr
 description: "Video editor with a focus on gameplay footage."
 body: >
-  <p>Originally a <a href="https://github.com/alanpq/klipr-flutter" target="_blank">flutter project</a> - klipr is an (unfinished) video editor with an opinionated workflow for editing and exporting gameplay footage. Written in rust, using <a href="https://iced.rs/" target="_blank">iced</a> for the GUI, <a href="https://gstreamer.freedesktop.org/" target="_blank">gstreamer</a> for playback, and <a href="https://ffmpeg.org/" target="_blank">ffmpeg</a> for all video processing/encoding.</p>
+  <p>Originally a <a href="https://github.com/alanpq/klipr-flutter" target="_blank">flutter project</a> - klipr is an (in progress) video editor with an opinionated workflow for editing and exporting gameplay footage. Written in rust, using <a href="https://github.com/emilk/egui" target="_blank">egui</a> for the GUI, and <a href="https://ffmpeg.org/" target="_blank">ffmpeg</a> for video playback, as well as processing/encoding.</p>
 
-  <p>The typical (planned) workflow is as follows:</p>
+  <img class="shadow" src="/static/img/klipr/klipr_01.png"/>
+
+  <p>The workflow is as follows:</p>
   <ul>
     <li>Klipr imports video files from recorded gameplay via pre-existing software such as <a href="https://obsproject.com/" target="_blank">OBS</a>.</li>
     <li>The user then defines one or more "clips" from the source videos, where they can also change the audio track mixing, and define any additional metadata (who is in the video, what game was played, etc).</li>

@@ -1,9 +1,20 @@
 main {
 
   img {
-    // max-width: ;
-    width: 100%;
+    display: block;
+      width: 90%;
     height: auto;
+    margin: auto auto 1em auto;
+      box-shadow: rgba(0, 0, 0, 0.2) -2px 3px 10px 0px;
+    
+      // transition:
+      //   transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+    
+      // &:hover {
+      //   transform: scale(1.05);
+      //   box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 20px 0px;
+      //   cursor: pointer;
+      // }
   }
 
 

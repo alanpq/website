@@ -1,0 +1,38 @@
+id: clip-muncher
+category: main
+title: Clip Muncher
+year: "2023 - now"
+url: https://clips.alanp.me/
+github: https://github.com/alanpq/clip-server/
+description: "Discord gameplay clip aggregator."
+body: >
+  <p>
+    <img class="shadow" src="/static/img/clip-muncher/grid.png"/>
+    Easily browse, search and share videos uploaded to your Discord servers.
+  </p>
+  <blockquote>
+    <strong>NOTE</strong>: Clip Muncher is currently closed source, and only active on a handful of private Discord servers - without being in one of them, you will not be able to log in.
+  </blockquote>
+
+  <h3>How does it work?</h3>
+  <ul>
+    <li>The Discord bot is added to a server, and a channel assigned as the clip upload channel.</li>
+    <li>The bot will then start scraping & downloading all videos uploaded to that channel.</li>
+    <li>By logging in to the <a href="https://clips.alanp.me" target="_blank">site</a> with Discord, you can then browse clips from scraped servers you are in.</li>
+    <li>You can search by video name, message text associated with the clip, uploader, or by tagged users.
+    <ul><li>You can only tag featured users in clips you uploaded.</li></ul>
+    </li>
+  </ul>
+
+
+  <img class="shadow" src="/static/img/clip-muncher/video.png"/>
+  <h3>Technologies</h3>
+  <ul>
+    <li>Frontend made using <a href="https://kit.svelte.dev/" target="_blank">SvelteKit</a></li>
+    <li>Backend wrapper over <a href="https://www.postgresql.org/" target="_blank">PostgreSQL</a> written in Rust, with TypeScript bindings generated via <a href="https://github.com/Aleph-Alpha/ts-rs" target="_blank">ts-rs</a></li>
+    <li>Scraper service written in Rust<ul>
+      <li>Scrapes from Discord using <a href="https://github.com/serenity-rs/serenity" target="_blank">serenity</a>, a wrapper for the Discord API</li>
+      <li>Generates video thumbnails using <a href="https://ffmpeg.org/" target="_blank">ffmpeg</a></li>
+      </ul></li>
+    <li>Deployed as Docker containers, served via an <a href="https://nginx.org/" target="_blank">nginx</a> reverse proxy</li>
+  </ul>
