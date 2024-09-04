@@ -1,7 +1,0 @@
-id: ascii-trace
-category: main
-title: ascii-trace
-year: "2021"
-github: https://github.com/alanpq/ascii-trace
-description: "ASCII ray tracer written in Rust."
-body: "<p>Implemented in two branches for both single and multithreaded rendering. (multithreading somewhat unstable)</p><br/><img src='https://raw.githubusercontent.com/alanpq/ascii-trace/main/loop.gif' style='image-rendering: crisp-edges;'/>"

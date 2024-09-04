@@ -1,0 +1,10 @@
+---
+id: website
+category: main
+title: website
+year: 2020 - now
+github: https://github.com/alanpq/website
+url: https://alanp.me/
+description: "my website :)"
+---
+Written in Rust, with SCSS compiling, handlebars templating and github project scraping.

@@ -1,7 +1,0 @@
-version: "3.8"
-services:
-  website:
-    environment:
-      - "DEV=true"
-      - "RUST_LOG=debug"
-      - "RUST_BACKTRACE=full"
