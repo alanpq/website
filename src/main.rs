@@ -154,7 +154,7 @@ async fn main() -> std::io::Result<()> {
 	let mut projects = Projects::new();
 	projects
 		.watcher
-		.watch("./projects/", RecursiveMode::Recursive)
+		.watch(format!("{}/projects/", CONFIG.path_root), RecursiveMode::Recursive)
 		.unwrap();
 
 	let mut paths: Vec<std::path::PathBuf> = fs::read_dir(format!("{}/projects/", CONFIG.path_root)).unwrap().filter_map(|p| p.ok()).map(|p| p.path()).collect();
@@ -175,6 +175,9 @@ async fn main() -> std::io::Result<()> {
 
 	actix_web::rt::spawn(watch_css(format!("{}/src/styles", CONFIG.path_root)));
 
+  let host = std::env::var("HOST").unwrap_or_else(|_| "0.0.0.0".to_string());
+  let port = std::env::var("PORT").unwrap_or_else(|_| "9090".to_string());
+
 	info!("Webserver running!");
 	HttpServer::new(move || {
 		App::new()
@@ -191,7 +194,7 @@ async fn main() -> std::io::Result<()> {
 			.service(get_project)
 			.service(get_page)
 	})
-	.bind("0.0.0.0:9090")?
+	.bind(format!("{host}:{port}"))?
 	.run()
 	.await
 }
