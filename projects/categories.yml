@@ -1,7 +1,10 @@
 categories:
-  - 
+  -
     name: main
     hidden: true
+  -
+    name: inactive
+    blurb: small finished projects or generally inactive ones
   -
     name: archive
     blurb: really really old projects
