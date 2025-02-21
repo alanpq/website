@@ -1,81 +1,58 @@
-
-use std::{path::{Path, PathBuf}, fs::File, io::Read};
+use std::{
+    fs::File,
+    io::Read,
+    path::{Path, PathBuf},
+};
 
 use log::error;
-use serde::Serialize;
-use yaml_rust::{YamlLoader, Yaml, yaml};
+use markdown::{mdast::Node, to_mdast, Constructs};
+use serde::{Deserialize, Serialize};
 
-use crate::util::yaml::yaml_err;
+use crate::util::parse;
 
-#[derive(Serialize, Clone)]
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct Link {
-  pub href: String,
-  pub name: String,
+    pub href: String,
+    pub name: String,
 }
 
-impl Link {
-  pub fn from_yaml(yml: &yaml::Hash) -> Option<Link>{
-    Some(Link {
-      href: yml[&Yaml::String("href".to_string())].as_str()?.to_string(),
-      name: yml[&Yaml::String("name".to_string())].as_str()?.to_string(),
-    })
-  }
-}
-
-#[derive(Serialize, Clone)]
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct Award {
-  pub id: String,
-  pub title: String,
-  pub date: Option<String>,
-  pub body: String,
-  pub links: Option<Vec<Link>>,
+    pub id: String,
+    pub title: String,
+    pub date: Option<String>,
+    #[serde(skip_deserializing)]
+    pub body: String,
+    pub links: Option<Vec<Link>>,
 }
 
 impl Award {
-  pub fn from_file<P: AsRef<Path>>(path: P) -> Result<Award, Box<dyn std::error::Error>> {
-    let path = path.as_ref();
+    pub fn from_file<P: AsRef<Path>>(path: P) -> Result<Award, Box<dyn std::error::Error>> {
+        let (mut award, body) = parse::read_file::<Award>(path)?;
+        award.body = body;
 
-    let mut file = File::open(path)?;
-    let mut buf = String::new();
-    file.read_to_string(&mut buf)?;
-
-    let yml = &YamlLoader::load_from_str(&buf)?[0];
-
-    let id = yaml_err(yml["id"].as_str(), "award needs id!")?;
-    let title = yaml_err(yml["title"].as_str(), "award needs title!")?;
-    let body = yaml_err(yml["body"].as_str(), "award needs body!")?;
-
-    let date = yml["date"].as_str().map(|str| str.to_string());
-
-    let links: Option<Vec<Link>> = yml["links"].as_vec()
-      .map(|vec| 
-        vec.iter()
-          .filter_map(|link|
-            Link::from_yaml(link.as_hash()?)
-          ).collect()
-      );
-
-
-    Ok(Award {
-        id: id.to_string(),
-        title: title.to_string(),
-        date,
-        body: body.to_string(),
-        links,
-    })
-  }
+        Ok(award)
+    }
 }
 
 pub type Awards = Vec<Award>;
 
 pub fn fetch_awards<P: AsRef<Path>>(path: P) -> Option<Awards> {
-  match path.as_ref().read_dir() {
-    Ok(res) => {
-      let mut paths: Vec<PathBuf> = res.into_iter().filter_map(|f| Some(f.ok()?.path())).collect();
-      paths.sort_unstable_by(|a,b| b.cmp(a));
-      return Some(paths.iter().filter_map(|p| Award::from_file(p).ok()).collect());
-    },
-    Err(_) => error!("'{}' not found!", path.as_ref().display()),
-  }
-  None
+    match path.as_ref().read_dir() {
+        Ok(res) => {
+            let mut paths: Vec<PathBuf> = res
+                .into_iter()
+                .filter_map(|f| Some(f.ok()?.path()))
+                .collect();
+            paths.sort_unstable_by(|a, b| b.cmp(a));
+            return Some(
+                paths
+                    .iter()
+                    .filter_map(|p| Award::from_file(p).ok())
+                    .collect(),
+            );
+        }
+        Err(_) => error!("'{}' not found!", path.as_ref().display()),
+    }
+    None
 }
