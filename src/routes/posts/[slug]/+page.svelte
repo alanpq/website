@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { formatDate } from '$lib/utils'
+	import { formatDate } from '$lib/utils';
 
-	let { data } = $props()
+	let { data } = $props();
 </script>
 
 <svelte:head>
@@ -10,22 +10,20 @@
 	<meta property="og:title" content={data.meta.title} />
 </svelte:head>
 
-<article>
-    <header class="font-black box-content px-4 mx-auto max-w-[83ch] mt-10">
-        <hgroup>
-            <h1 class="text-6xl">{data.meta.title}</h1>
-            <p>Published at {formatDate(data.meta.date)}</p>
-        </hgroup>
+<main class="layout-container prose">
+	<header class="not-prose popout mt-10 box-content flex flex-col gap-2 font-black">
+		<hgroup>
+			<h1 class="text-6xl">{data.meta.title}</h1>
+		</hgroup>
 
-        <div class="tags">
-            {#each data.meta.categories as category}
-                <span class="surface-4">&num;{category}</span>
-            {/each}
-        </div>
-    </header>
+		<div class="flex gap-2">
+			<p class="text-muted-foreground">{formatDate(data.meta.date)}</p>
+			<span class="flex-grow"></span>
+			{#each data.meta.categories as category}
+				<span class="text-muted-foreground/50 italic">&num;{category}</span>
+			{/each}
+		</div>
+	</header>
 
-	<main class="prose box-content px-4 mx-auto max-w-[80ch] mt-4 mb-15">
-		<data.content />
-	</main>
-</article>
-
+	<data.content />
+</main>

@@ -1,5 +1,5 @@
 ---
-title: Second
+title: Figuring out a Good Font
 description: Second post.
 date: '2023-4-16'
 categories:
@@ -7,12 +7,9 @@ categories:
   - svelte
 published: true
 ---
-Lorem markdownum quid inquinat undis mea Ophias mei et ultima euntem venit
-invitis illi nati videres fiducia fluitantia `resolutionView`. Visa corpore
-maximus una **harundine**, sed guttae vacca, lux. Petis meritis fidem: fessis
-opus; fuisset opaca sub verba nate mediaque rursus procul resolvent, neque. Ni
-sibi qua fulgebant mutando esset, fata abiit aduncis? Formidabilis omnis
-Mithridateisque membra hunc, ambieratque tuli, poterisne visa, moram illic.
+The previous structure of this page layout was virtually the same, the foundation of it expertly defined in the article Full-Bleed Layout Using CSS Grid by Josh Comeau. It's a technique I've used on many projects. I've even blogged about it previously in Horizontal Scrolling in a Centered Max-Width Container.
+
+What I'm documenting here is an extension of the full-bleed CSS Grid layout. In the last version of my site, selected elements – images, code blocks, quotes – were made wider than the page content area using negative margins. It worked well! For this next iteration, I explored applying these breakout offsets using CSS grid and named grid lines.
 
 - Paulum alterius curvamine sceleratos[^1] ~~talia~~ exempla equae
 - Et veniam in nunc violente scrobibus auctore
