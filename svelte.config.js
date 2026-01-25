@@ -20,8 +20,9 @@ const config = {
                 "rs": "rust",
             },
         },
+        extensions: ['.svx', '.md'],
     })],
-	extensions: ['.svelte', '.svx']
+	extensions: ['.svelte', '.svx', '.md']
 };
 
 export default config;

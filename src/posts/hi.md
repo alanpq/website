@@ -1,6 +1,11 @@
 ---
-title: Lorem ipsum sit
-date: now
+title: Second
+description: Second post.
+date: '2023-4-16'
+categories:
+  - sveltekit
+  - svelte
+published: true
 ---
 Lorem markdownum quid inquinat undis mea Ophias mei et ultima euntem venit
 invitis illi nati videres fiducia fluitantia `resolutionView`. Visa corpore
