@@ -9,32 +9,25 @@
 @custom-variant fixed (&:is(.layout-fixed *));
 
 @font-face {
-	font-family: "Geist";
-	src: url("/fonts/Geist/geist.woff2") format("woff2");
-	font-style: normal;
-	font-display: swap;
+    font-family: 'iosevka-etoile';
+    src: url('/fonts/IosevkaEtoile-Regular.woff2') format('woff2');
+    font-display: swap;
+    font-weight: normal;
+    font-style: normal;
 }
-
 @font-face {
-	font-family: "Geist Mono";
-	src: url("/fonts/Geist/geist-mono.woff2") format("woff2");
-	font-style: normal;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: "Inter";
-	src: url("/fonts/Inter/inter.woff2") format("woff2");
-	font-style: normal;
-	font-display: swap;
+    font-family: 'iosevka-etoile';
+    src: url('/fonts/IosevkaEtoile-Bold.woff2') format('woff2');
+    font-display: swap;
+    font-weight: bold;
+    font-style: normal;
 }
 
 @theme inline {
 	--breakpoint-3xl: 1600px;
 	--breakpoint-4xl: 2000px;
-	--font-sans: "Geist", sans-serif;
-	--font-mono: "Geist Mono", monospace;
-	--font-inter: "Inter", sans-serif;
+	--font-sans: "iosevka-etoile", monospace;
+	--font-mono: "iosevka-etoile", monospace;
 	--radius-sm: calc(var(--radius) - 4px);
 	--radius-md: calc(var(--radius) - 2px);
 	--radius-lg: var(--radius);
@@ -78,6 +71,20 @@
 	--color-code-number: var(--code-number);
 	--color-selection: var(--selection);
 	--color-selection-foreground: var(--selection-foreground);
+
+    /* --tracking-tighter: -0.05em; */
+    /* --tracking-tight: -0.025em; */
+    /* --tracking-normal: 0em; */
+    /* --tracking-wide: 0.025em; */
+    /* --tracking-wider: 0.05em; */
+    /* --tracking-widest: 0.1em; */
+
+    --tracking-tighter: calc(-0.05em - 0.01em);
+    --tracking-tight: calc(-0.025em - 0.01em);
+    --tracking-normal: calc(0em - 0.01em);
+    --tracking-wide: calc(0.025em - 0.01em);
+    --tracking-wider: calc(0.05em - 0.01em);
+    --tracking-widest: calc(0.1em - 0.01em);
 }
 
 :root {
@@ -172,18 +179,20 @@
 		@apply border-border outline-ring/50;
 	}
 
+
 	::selection {
 		@apply bg-selection text-selection-foreground;
 	}
 
 	html {
 		@apply overscroll-none scroll-smooth;
+        font-size: 20px;
 	}
 
 	body {
 		font-synthesis-weight: none;
 		text-rendering: optimizeLegibility;
-        @apply bg-background text-foreground;
+        @apply bg-background text-foreground tracking-normal;
 	}
 
 	@supports (font: -apple-system-body) and (-webkit-appearance: none) {
@@ -196,4 +205,8 @@
 	button:active {
 		@apply opacity-60 md:opacity-100;
 	}
+
+    h1 {
+        @apply tracking-tight;
+    }
 }

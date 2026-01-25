@@ -1,4 +1,4 @@
-<script context="module">
+<script module>
   import Link from '$lib/components/ui/link.svelte';
   export { Link as a };
 </script>
