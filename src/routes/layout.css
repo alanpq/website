@@ -154,6 +154,8 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.646 0.222 41.116);
+  --selection: oklch(0.7563 0.1477 41.36);
+  --selection-foreground: oklch(0.2269 0.0019 286.25);
 }
 @utility prose {
   --tw-prose-body: var(--color-foreground);
@@ -208,5 +210,9 @@
 
     h1 {
         @apply tracking-tight;
+    }
+
+    ul li::marker {
+        content: "–";
     }
 }
