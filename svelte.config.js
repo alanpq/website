@@ -1,4 +1,6 @@
 import { mdsvex } from 'mdsvex';
+import gfm from 'remark-gfm';
+
 import adapter from '@sveltejs/adapter-static';
 
 import { join, dirname } from 'node:path';
@@ -12,6 +14,7 @@ const config = {
 	kit: { adapter: adapter() },
 	preprocess: [mdsvex({
         layout: join(__dirname, './src/layouts/blog-post.layout.svelte'),
+        remarkPlugins: [gfm],
         highlight: {
             alias: {
                 "rs": "rust",

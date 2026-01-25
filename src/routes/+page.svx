@@ -9,12 +9,14 @@ opus; fuisset opaca sub verba nate mediaque rursus procul resolvent, neque. Ni
 sibi qua fulgebant mutando esset, fata abiit aduncis? Formidabilis omnis
 Mithridateisque membra hunc, ambieratque tuli, poterisne visa, moram illic.
 
-- Paulum alterius curvamine sceleratos talia exempla equae
+- Paulum alterius curvamine sceleratos[^1] ~~talia~~ exempla equae
 - Et veniam in nunc violente scrobibus auctore
 - Praefert accessi parentis loco Scirone usum
 - Ite nuper coniunx iudicis foribus mirantia paulatim
 
 > Est deleniti ut tempora commodi voluptatibus animi quia. Eius quia suscipit beatae ut quis quis. Rerum nobis mollitia optio qui aliquam asperiores eligendi repellendus. Sunt consequuntur enim labore est illo nihil sed nisi.
+
+[^1]: Lorem ipsum.
 
 ## Redolentia me petitur nitenti
 
@@ -46,6 +48,8 @@ skinServices(14 + flashThumbnail + 3, 2, parallelDvi * 86);
 
 ## Eurydicen et ex cum
 
+![alt text](https://placehold.co/600x400 "Your image caption")
+
 Procumbit vidit nam tibi his festinant manuque turbam [sol Agamemnonis
 iram](#sed-minus) Aeacidis? Nec mavult flammas obvia, cui pudet iuvabat
 totidemque alvum hominumque quamvis sic fatorum forsitan. Tantum est lumina
@@ -75,6 +79,7 @@ fn main() {
     println!("{:?} {}", foo, v);
 }
 ```
+---
 
 ## Relictae cornua
 

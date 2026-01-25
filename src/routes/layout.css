@@ -156,7 +156,7 @@
   --tw-prose-bold: var(--color-primary);
   --tw-prose-counters: var(--color-primary);
   --tw-prose-bullets: var(--color-primary);
-  --tw-prose-hr: var(--color-pink-300);
+  --tw-prose-hr: var(--color-border);
   --tw-prose-quotes: var(--color-muted-foreground);
   --tw-prose-quote-borders: var(--color-primary);
   --tw-prose-captions: var(--color-pink-700);
