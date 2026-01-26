@@ -1,5 +1,7 @@
 import { mdsvex } from 'mdsvex';
 import gfm from 'remark-gfm';
+import rehypeSlug from 'rehype-slug';
+import remarkToc from 'remark-toc';
 
 import adapter from '@sveltejs/adapter-static';
 
@@ -12,16 +14,19 @@ const __dirname = dirname(__filename);
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
 	kit: { adapter: adapter() },
-	preprocess: [mdsvex({
-        layout: join(__dirname, './src/layouts/blog-post.layout.svelte'),
-        remarkPlugins: [gfm],
-        highlight: {
-            alias: {
-                "rs": "rust",
-            },
-        },
-        extensions: ['.svx', '.md'],
-    })],
+	preprocess: [
+		mdsvex({
+			layout: join(__dirname, './src/layouts/blog-post.layout.svelte'),
+			remarkPlugins: [[remarkToc, { tight: true }]],
+			rehypePlugins: [rehypeSlug],
+			highlight: {
+				alias: {
+					rs: 'rust'
+				}
+			},
+			extensions: ['.svx', '.md']
+		})
+	],
 	extensions: ['.svelte', '.svx', '.md']
 };
 

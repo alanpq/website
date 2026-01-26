@@ -7,20 +7,23 @@ categories:
   - svelte
 published: true
 ---
-The previous structure of this page layout was virtually the same, the foundation of it expertly defined in the article Full-Bleed Layout Using CSS Grid by Josh Comeau. It's a technique I've used on many projects. I've even blogged about it previously in Horizontal Scrolling in a Centered Max-Width Container.
-
-What I'm documenting here is an extension of the full-bleed CSS Grid layout. In the last version of my site, selected elements – images, code blocks, quotes – were made wider than the page content area using negative margins. It worked well! For this next iteration, I explored applying these breakout offsets using CSS grid and named grid lines.
-
-- Paulum alterius curvamine sceleratos[^1] ~~talia~~ exempla equae
-- Et veniam in nunc violente scrobibus auctore
-- Praefert accessi parentis loco Scirone usum
-- Ite nuper coniunx iudicis foribus mirantia paulatim
+Voluptatem est nihil sapiente autem reprehenderit dignissimos. In aspernatur omnis dolore similique quo aut facilis. Quae perferendis est molestiae dolore commodi doloremque. Provident aut culpa et consequatur corporis maiores veritatis eum. Vero quod nobis assumenda in sed quaerat dolore.
 
 > Est deleniti ut tempora commodi voluptatibus animi quia. Eius quia suscipit beatae ut quis quis. Rerum nobis mollitia optio qui aliquam asperiores eligendi repellendus. Sunt consequuntur enim labore est illo nihil sed nisi.
 
+Motae adest ambiguo bracchia:
+
+```js
+var virtualization = wpaFile;
+var language_undo_whitelist = transfer_disk - tutorial - ictWord + 2 *
+        peripheralLaserWord + station;
+buffer += macro.navigation.interlaced_handle_internet(social);
+skinServices(14 + flashThumbnail + 3, 2, parallelDvi * 86);
+```
+
 [^1]: Lorem ipsum.
 
-## Redolentia me petitur nitenti
+# Redolentia me petitur nitenti
 
 Numerem inter paternos partesque patitur ventos virtute *pendentem memento*;
 suis maiorque, penates tenet. Furoris harundine sinistrae, digiti cacumen, in
@@ -33,25 +36,21 @@ harenae prosunt, fumantia `java_pram_icq`, Egeriae longum dixere; eas et.
 4. Aditum negavit
 5. Comitata spumeus
 
-## Sed minus
+# Sed minus
 
 Motae adest ambiguo bracchia; in longe, [et](#redolentia-me-petitur-nitenti),
 quoque humus, terga! Parosque vox herba adsere ita quo constitit mali adscendit
 **fausto figuras** at antiquus incola ira stipite nec. Caelum vulnus, gerens
 corpusque commissaque positus conscia.
 
-```js
-var virtualization = wpaFile;
-var language_undo_whitelist = transfer_disk - tutorial - ictWord + 2 *
-        peripheralLaserWord + station;
-buffer += macro.navigation.interlaced_handle_internet(social);
-skinServices(14 + flashThumbnail + 3, 2, parallelDvi * 86);
-```
+- Paulum alterius curvamine sceleratos[^1] ~~talia~~ exempla equae
+- Et veniam in nunc violente scrobibus auctore
+- Praefert accessi parentis loco Scirone usum
+- Ite nuper coniunx iudicis foribus mirantia paulatim
+
 
 ## Eurydicen et ex cum
-
 ![alt text](https://placehold.co/600x400 "Your image caption")
-
 Procumbit vidit nam tibi his festinant manuque turbam [sol Agamemnonis
 iram](#sed-minus) Aeacidis? Nec mavult flammas obvia, cui pudet iuvabat
 totidemque alvum hominumque quamvis sic fatorum forsitan. Tantum est lumina

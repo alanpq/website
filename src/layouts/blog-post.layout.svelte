@@ -1,8 +1,9 @@
 <script module>
 	import Link from '$lib/components/ui/link.svelte';
 	import Code from '$lib/components/ui/code.svelte';
+	import Pre from '$lib/components/ui/pre.svelte';
 	import type { Snippet } from 'svelte';
-	export { Link as a };
+	export { Link as a, Pre as pre };
 </script>
 
 <script lang="ts">

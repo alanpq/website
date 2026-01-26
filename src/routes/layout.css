@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
+@config '../tailwind.config.js';
 @import 'tw-animate-css';
 
 @import '../prism-gruvbox-dark.css';
@@ -207,6 +208,14 @@
 	--tw-prose-td-borders: var(--color-primary);
 	@apply text-base;
 	max-width: inherit;
+
+	:not(pre) > code {
+		@apply bg-secondary px-0.5;
+		box-shadow: 0 0 0 3px var(--color-secondary);
+	}
+	/* pre[class*='language-'] { */
+	/* 	grid-column: feature; */
+	/* } */
 }
 
 @layer base {
