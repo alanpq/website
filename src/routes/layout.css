@@ -298,4 +298,11 @@
 	.full {
 		grid-column: full;
 	}
+
+	.footnote-ref {
+		@apply no-underline!;
+	}
+	.footnote-backref {
+		@apply ml-2;
+	}
 }

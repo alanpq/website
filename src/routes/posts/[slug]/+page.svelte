@@ -11,14 +11,14 @@
 </svelte:head>
 
 <main class="layout-container prose">
-	<header class="not-prose popout mt-10 box-content flex flex-col gap-2 font-black">
+	<header class="not-prose popout mt-10 mb-5 box-content flex flex-col gap-2 font-black">
 		<hgroup>
 			<h1 class="text-6xl">{data.meta.title}</h1>
 		</hgroup>
 
 		<div class="flex gap-2">
 			<p class="text-muted-foreground">{formatDate(data.meta.date)}</p>
-			<span class="flex-grow"></span>
+			<span class="grow"></span>
 			{#each data.meta.categories as category}
 				<span class="text-muted-foreground/50 italic">&num;{category}</span>
 			{/each}

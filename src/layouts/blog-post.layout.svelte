@@ -9,6 +9,7 @@
 	export { default as h4 } from '$lib/components/ui/h4.svelte';
 	export { default as h5 } from '$lib/components/ui/h5.svelte';
 	export { default as h6 } from '$lib/components/ui/h6.svelte';
+	export { default as img } from '$lib/components/ui/img.svelte';
 	export { Link as a, Pre as pre };
 </script>
 

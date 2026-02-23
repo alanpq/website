@@ -3,11 +3,11 @@ title: Figuring out a Good Font
 description: Second post.
 date: '2023-4-16'
 categories:
-  - sveltekit
+  - rust
   - svelte
 published: true
 ---
-Voluptatem est nihil sapiente autem reprehenderit dignissimos. In aspernatur omnis dolore similique quo aut facilis. Quae perferendis est molestiae dolore commodi doloremque. Provident aut culpa et consequatur corporis maiores veritatis eum. Vero quod nobis assumenda in sed quaerat dolore.
+Voluptatem est nihil sapiente autem reprehenderit[^1] dignissimos. In aspernatur omnis dolore similique quo aut facilis. Quae perferendis est molestiae dolore commodi doloremque. Provident aut culpa et consequatur corporis maiores veritatis eum. Vero quod nobis assumenda in sed quaerat dolore.
 
 > Est deleniti ut tempora commodi voluptatibus animi quia. Eius quia suscipit beatae ut quis quis. Rerum nobis mollitia optio qui aliquam asperiores eligendi repellendus. Sunt consequuntur enim labore est illo nihil sed nisi.
 

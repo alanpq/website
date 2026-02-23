@@ -2,6 +2,7 @@ import { mdsvex } from 'mdsvex';
 import gfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
 import remarkToc from 'remark-toc';
+import remarkFootnotes from 'remark-footnotes';
 
 import adapter from '@sveltejs/adapter-static';
 
@@ -17,7 +18,10 @@ const config = {
 	preprocess: [
 		mdsvex({
 			layout: join(__dirname, './src/layouts/blog-post.layout.svelte'),
-			remarkPlugins: [[remarkToc, { tight: true }]],
+			remarkPlugins: [
+				[remarkToc, { tight: true }],
+				[remarkFootnotes, {}]
+			],
 			rehypePlugins: [rehypeSlug],
 			highlight: {
 				alias: {
