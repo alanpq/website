@@ -9,6 +9,8 @@ use log::{error, info};
 use notify::{watcher, RecursiveMode, Watcher};
 use rsass::{compile_scss_path, output::{Format, Style}};
 
+use crate::CONFIG;
+
 pub async fn watch_css<P: AsRef<Path>>(path: P) {
 	let path = path.as_ref().to_owned();
 
@@ -60,7 +62,7 @@ fn compile_sass(path: &Path) -> Option<String> {
 		.unwrap_or_else(|_| panic!("couldn't compile sass: {}", path.display()));
 
 	// let css_sha = format!("{}_{}", filename, hash_css(&css));
-	let css_file = format!("./static/styles/{}.css", file_name.strip_suffix(".scss")?);
+	let css_file = format!("{}/static/styles/{}.css", &CONFIG.path_root, file_name.strip_suffix(".scss")?);
 
 	fs::write(&css_file, css)
 		.unwrap_or_else(|_| panic!("couldn't write css file: {}", &css_file));
