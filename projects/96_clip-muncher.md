@@ -1,8 +1,8 @@
 +++
 id = "clip-muncher"
-category = "main"
+category = "inactive"
 title = "Clip Muncher"
-year = "2023 - now"
+year = "2023 - 2024"
 url = "https://clips.alanp.me/"
 github = "https://github.com/alanpq/clip-server/"
 description = "Discord gameplay clip aggregator."
