@@ -1,3 +1,12 @@
+@font-face {
+    font-family: 'iosevka-slab';
+    src: url('/static/fonts/IosevkaSlab-Regular.ttf') format('truetype');
+    font-display: swap;
+    font-weight: normal;
+    font-style: normal;
+}
+
+
 :root {
   --bg1: rgb(28, 28, 29);
   --bg2: rgb(44, 44, 46);
@@ -158,7 +167,7 @@ nav {
   // grid-template-columns: auto;
   // grid-template-rows: min-content auto min-content;
 
-  // grid-template-areas: 
+  // grid-template-areas:
   //   "";
 
   h2,
@@ -233,6 +242,18 @@ main a {
     border: none;
     // border-bottom: 1px solid var(--fg2);
   }
+}
+
+code {
+  font-family: 'iosevka-slab', monospace;
+  font-size: 0.9em;
+
+  padding-left: 0.1em;
+  padding-right: 0.1em;
+
+  color: var(--accent1);
+  background: var(--bg2);
+  box-shadow: 0 0 0 2px var(--bg2);
 }
 
 
