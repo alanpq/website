@@ -7,6 +7,8 @@ github = "https://github.com/alanpq/ascii-trace"
 description = "ASCII ray tracer written in Rust."
 +++
 
+One of my first proper Rust projects.
+
 Implemented in two branches for both single and multithreaded rendering. (Multithreading somewhat unstable)
 
 <img src="https://raw.githubusercontent.com/alanpq/ascii-trace/main/loop.gif" style="image-rendering: crisp-edges;"/>
