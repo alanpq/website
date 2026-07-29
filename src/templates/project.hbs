@@ -7,12 +7,17 @@ Projects
 {{/inline}}
 
 {{#*inline "head"}}
-  <link rel="stylesheet" href="/static/styles/project.css">
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.7/viewer.min.js" integrity="sha512-lZD0JiwhtP4UkFD1mc96NiTZ14L7MjyX5Khk8PMxJszXMLvu7kjq1sp4bb0tcL6MY+/4sIuiUxubOqoueHrW4w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.7/viewer.min.css" integrity="sha512-vRbASHFS0JiM4xwX/iqr9mrD/pXGnOP2CLdmXSSNAjLdgQVFyt4qI+BIoUW7/81uSuKRj0cWv3Dov8vVQOTHLw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+ <link rel="stylesheet" href="/static/styles/project.css">
+ <script>
+ window.onload = () => {for(const img of document.querySelectorAll("img:not(.back)")){new Viewer(img,{navbar:false,toolbar:false});}}
+ </script>
 {{/inline}}
 
 {{#*inline "post_nav"}}
   <button class="back" title="Back" onclick="history.back()">
-    <img src="/static/img/back.svg" />
+    <img class="back" src="/static/img/back.svg" />
   </button>
 {{/inline}}
 
