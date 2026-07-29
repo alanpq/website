@@ -7,7 +7,7 @@ github = "https://github.com/LeagueToolkit/league-toolkit"
 description = "Rust library for handling League of Legends file formats"
 +++
 
-Based on the original [C# project](https://github.com/LeagueToolkit/LeagueToolkit), league-toolkit powers the rest of our [org](https://github.com/LeagueToolkit)'s modding stack - notably our [mod manager](https://github.com/LeagueToolkit/ltk-manager) for League of Legends, and other modding related tools like [hexbelt](https://github.com/alanpq/hexbelt/).
+Based on the original [C# project](https://github.com/LeagueToolkit/LeagueToolkit), league-toolkit powers the rest of our [org](https://github.com/LeagueToolkit)'s modding stack - notably our [mod manager](https://github.com/LeagueToolkit/ltk-manager) for League of Legends, and other modding related tools like [hexbelt](/projects/hexbelt).
 
 The library is responsible for idiomatic and performant APIs to read/write and otherwise manipulate the proprietary file formats and structures found in the *League of Legends* game engine.
 
