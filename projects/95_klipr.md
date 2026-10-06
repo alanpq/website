@@ -1,8 +1,8 @@
 +++
 id = "klipr"
-category = "inactive"
+category = "main"
 title = "klipr"
-year = "2022 - 2024"
+year = "2022 - now"
 github = "https://github.com/alanpq/klipr"
 description = "Video editor with a focus on gameplay footage."
 +++
